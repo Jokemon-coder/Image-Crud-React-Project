@@ -72,8 +72,8 @@ function LoginRegister() {
         <div id='Login'>
         <h1>Login</h1>
         <div className='PasswordAndButton'>
-        <input id="User" className="Username" type="text" placeholder="Username" onChange={handleInput}></input>
-        <input id="Pass" className="Password" type={display[0]} placeholder="Password" onChange={handleInput}></input>
+        <input id="User" className="UserPass" type="text" placeholder="Username" onChange={handleInput}></input>
+        <input id="Pass" className="UserPass" type={display[0]} placeholder="Password" onChange={handleInput}></input>
         <img id='PasswordNot' className='PasswordEye' src={display[1]} alt="Show password" onClick={() => showHidePassword()}></img>
         </div>
         <button className='LoginRegButton' id='LoginButton' onClick={checkUser} onMouseOver={mouseOverAndOut} onMouseOut={mouseOverAndOut}>Login</button>

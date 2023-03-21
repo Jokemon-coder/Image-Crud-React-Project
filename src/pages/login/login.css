@@ -49,7 +49,7 @@ h1 {
     font-size: 50px;
 }
 
-.Username, .Password {
+.UserPass {
     display: inline-block;
     position: relative;
     width: 90%;
@@ -60,11 +60,7 @@ h1 {
     text-align: center;
     border: solid 2.5px #000000;
     border-color: none;
-}
-
-.Password {
     vertical-align: middle;
-
 }
 
 .PasswordAndButton {
@@ -111,15 +107,51 @@ h1 {
 
 }
 
-@media only screen and (max-width: 600px) {
+/*Responsive design*/
+@media screen and (max-width: 768px) {
     #LoginForm {
         width: 100%;
         height: 100%;
         margin: 0 auto;
         margin-bottom: 0px;
         padding-top: 0px;
-        
     }
 
+    #Login {
+        height: 100%;
+        border: none;
+    }
+
+    .PasswordAndButton {
+        margin: 0 auto;
+    }
+
+    .UserPass {
+        margin: 5px 0px 5px 0px;
+        height: 45px;
+        font-size: 30px;
+    }
+
+    .PasswordEye {
+        margin: 10px 0px 10px 0px;
+        width: 40px;
+    }
+
+    .LoginRegButton {
+        margin-bottom: 5px;
+        width: 70%;
+        font-size: 25px;
+    }
+
+    #LoginButton {
+        margin-top: 10px;
+        height: 50px;
+        border-radius: 20px;
+    }
+
+
+}
+
+@media screen and (min-width: 768px) {
 
 }

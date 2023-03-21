@@ -3,14 +3,15 @@ import { useState, useEffect } from 'react';
 import './login.css';
 import ShowImg from './images/eye.png';
 import HideImg from './images/eye-crossed.png';
-import TextInput from '../../components/TextInput.js';
 import Accounts from '../../components/Accounts.json';
 
 function LoginRegister() {
 
+  //States for password display and hovering bool
   const [display, setDisplay] = useState(["password", ShowImg]);
   const [isHovering, setHovering] = useState(false);
 
+  //Initial state for the username and password
   const [data, setData] = useState(
     {
     username: "",
@@ -22,6 +23,7 @@ function LoginRegister() {
     if(e.target.id === "User" ? setData({...data, username: e.target.value}) : setData({...data, password: e.target.value}));
   }
 
+  //Try to find entered data by username and password from Accounts. If succesful, go to main page, otherwise don't.
   const checkUser = () => {
     const usercheck = Accounts.find(user => (user.username === data.username && user.password === data.password));
     if(usercheck) {
@@ -32,6 +34,7 @@ function LoginRegister() {
     }
   }
 
+  //Handle hovering
   const mouseOverAndOut = () => {
     if(isHovering === false)
     {
@@ -44,6 +47,7 @@ function LoginRegister() {
     };
   };
 
+  //Handle click on password eye icon and change accordingly.
   const showHidePassword = () => {
     if(display[0] === "password")
     {

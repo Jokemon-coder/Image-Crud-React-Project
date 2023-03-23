@@ -5,7 +5,7 @@ import ShowImg from './images/eye.png';
 import HideImg from './images/eye-crossed.png';
 import Accounts from '../../components/Accounts.json';
 
-function LoginRegister() {
+function LoginRegister(props) {
 
   //States for password display and hovering bool
   const [display, setDisplay] = useState(["password", ShowImg]);
@@ -68,7 +68,7 @@ function LoginRegister() {
 
   return (
     <>
-        <section id='LoginForm' className='Form'>
+        <section id='LoginForm' className='Form' onLoad={console.log(props)}>
         <div id='Login'>
         <h1>Login</h1>
         <div className='PasswordAndButton'>

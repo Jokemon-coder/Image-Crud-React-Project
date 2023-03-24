@@ -4,22 +4,23 @@ import LoginRegister from './pages/login/login-register';
 import Home from './pages/home/home';
 import {Route, Routes} from 'react-router-dom';
 
-function App() {
+function App(props) {
 
   const[checkLogged, setLogged] = useState(false);
 
+  const setChanged = () => {
+    setLogged(true);
+  }
+
   const check = () => {
-    if(checkLogged === false)
-    {
-      
-    }
+    console.log(checkLogged);
   }
 
   return (
-    <div className="App" onLoad={check}>
+    <div className="App">
       <Routes>
-      <Route exact path="/" element={<Home/>}/>
-      <Route exact path="/login" element={<LoginRegister isLogged={checkLogged}/>}/>
+      <Route exact path="/" element={<Home onLoad={check()}/>}/>
+      <Route exact path="/login" element={<LoginRegister logged={checkLogged} setChanged={setChanged} onLoad={check()}/>}/>
       </Routes>
     </div>
   );

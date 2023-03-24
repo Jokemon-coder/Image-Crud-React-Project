@@ -11,6 +11,17 @@ function LoginRegister(props) {
   const [display, setDisplay] = useState(["password", ShowImg]);
   const [isHovering, setHovering] = useState(false);
 
+  const [loginState, setLoginState] = useState(props.logged);
+  props.setChanged(true);
+  
+  //Pitää laittaa niin, että ne on riippuvaisia toisistaan ja ottaa tietonsa toisistaa. Pitää liittaa kirjautumiseen
+  console.log(props.logged);
+  /*if(loginState === false)
+  {
+    props.setChanged(true);
+    setLoginState(props.logged);
+  }*/
+
   //Initial state for the username and password
   const [data, setData] = useState(
     {
@@ -27,6 +38,7 @@ function LoginRegister(props) {
   const checkUser = () => {
     const usercheck = Accounts.find(user => (user.username === data.username && user.password === data.password));
     if(usercheck) {
+      props.setChanged(true);
       console.log("Login successful");
       window.location.href = "http://localhost:3000/";
     }else {
@@ -68,7 +80,7 @@ function LoginRegister(props) {
 
   return (
     <>
-        <section id='LoginForm' className='Form' onLoad={console.log(props)}>
+        <section id='LoginForm' className='Form'>
         <div id='Login'>
         <h1>Login</h1>
         <div className='PasswordAndButton'>

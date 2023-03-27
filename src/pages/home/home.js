@@ -1,14 +1,29 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './home.css';
 
 function Home(props) {
   
   const [checkLogged, setLogged] = useState(props.logged);
 
+  function clicked() {
+      document.getElementById("text").textContent = "Yay";
+      props.click();
+    }
+
+  useEffect(() => {
+    const data = window.localStorage.getItem('Login_Status');
+    console.log('data', data);
+    if(data !== null) setLogged(JSON.parse(data));
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem('Login_Status', JSON.stringify(checkLogged));
+  }, [checkLogged]);
+
   return (
-    <div className="Home">
+    <div className="Home" >
       <main>
-      <p>Hello</p>
+      <p id='text' onClick={clicked}>Hello</p>
       </main>
     </div>
   );

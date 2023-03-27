@@ -14,12 +14,22 @@ function LoginRegister(props) {
   const [loginState, setLoginState] = useState(props.logged);
   
   //Pitää laittaa niin, että ne on riippuvaisia toisistaan ja ottaa tietonsa toisistaa. Pitää liittaa kirjautumiseen
-  console.log(props.logged);
+  //console.log(props.logged);
   /*if(loginState === false)
   {
     props.setChanged(true);
     setLoginState(props.logged);
   }*/
+
+  /*useEffect(() => {
+    const data = window.localStorage.getItem('checkLogged');
+    console.log('data', data);
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem('checkLogged', JSON.stringify(loginState));
+  }, [loginState]);
+  */
 
   //Initial state for the username and password
   const [data, setData] = useState(
@@ -37,11 +47,12 @@ function LoginRegister(props) {
   const checkUser = () => {
     const usercheck = Accounts.find(user => (user.username === data.username && user.password === data.password));
     if(usercheck) {
-      props.setChanged(true);
+      //props.setChanged(true);
       console.log("Login successful");
       window.location.href = "http://localhost:3000/";
     }else {
       console.log("Wrong password or username");
+
     }
   }
 

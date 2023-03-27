@@ -1,7 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './home.css';
 
-function Home() {
+function Home(props) {
+  
+  const [checkLogged, setLogged] = useState(props.logged);
+
   return (
     <div className="Home">
       <main>

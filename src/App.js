@@ -6,11 +6,16 @@ import {Route, Routes} from 'react-router-dom';
 
 function App(props) {
 
-  const[checkLogged, setLogged] = useState(false);
+  const[checkLogged, setLogged] = useState();
 
-  const setChanged = () => {
+  const setToLogged = () => {
     setLogged(true);
   }
+
+  const setToNotLogged = () => {
+    setLogged(false);
+  }
+  
 
   const check = () => {
     console.log(checkLogged);
@@ -19,8 +24,8 @@ function App(props) {
   return (
     <div className="App">
       <Routes>
-      <Route exact path="/" element={<Home onLoad={check()}/>}/>
-      <Route exact path="/login" element={<LoginRegister logged={checkLogged} setChanged={setChanged} onLoad={check()}/>}/>
+      <Route exact path="/" element={<Home logged={checkLogged} setChanged={setToLogged} onLoad={check()}/>}/>
+      <Route exact path="/login" element={<LoginRegister logged={checkLogged} setChanged={setToNotLogged} onLoad={check()}/>}/>
       </Routes>
     </div>
   );

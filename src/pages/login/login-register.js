@@ -12,7 +12,6 @@ function LoginRegister(props) {
   const [isHovering, setHovering] = useState(false);
 
   const [loginState, setLoginState] = useState(props.logged);
-  props.setChanged(true);
   
   //Pitää laittaa niin, että ne on riippuvaisia toisistaan ja ottaa tietonsa toisistaa. Pitää liittaa kirjautumiseen
   console.log(props.logged);

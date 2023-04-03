@@ -22,24 +22,6 @@ function LoginRegister(props) {
   useEffect(() => {
     window.localStorage.setItem('Login_Status', JSON.stringify(loginState));
   }, [loginState]);
-  
-  //Pitää laittaa niin, että ne on riippuvaisia toisistaan ja ottaa tietonsa toisistaa. Pitää liittaa kirjautumiseen
-  //console.log(props.logged);
-  /*if(loginState === false)
-  {
-    props.setChanged(true);
-    setLoginState(props.logged);
-  }*/
-
-  /*useEffect(() => {
-    const data = window.localStorage.getItem('checkLogged');
-    console.log('data', data);
-  }, []);
-
-  useEffect(() => {
-    window.localStorage.setItem('checkLogged', JSON.stringify(loginState));
-  }, [loginState]);
-  */
 
   //Initial state for the username and password
   const [data, setData] = useState(
@@ -97,6 +79,9 @@ function LoginRegister(props) {
     document.getElementById("PasswordNot").style.src = imgSrc;
   }, [imgSrc]);*/
 
+  if(loginState === false) //If statement put in place so that when an onload event happens from app, it wont show the content of the page if user is logged in and the page is redirected
+  {
+
   return (
     <>
         <section id='LoginForm' className='Form'>
@@ -116,6 +101,7 @@ function LoginRegister(props) {
         </section>
     </>
   );
+  }
 }
 
 export default LoginRegister;

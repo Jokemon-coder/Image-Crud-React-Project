@@ -3,18 +3,12 @@ import './home.css';
 
 function Home(props) {
   
-  const [checkLogged, setLogged] = useState(props.logged/*JSON.parse(localStorage.getItem('Login_Status'))*/);
+  const [checkLogged, setLogged] = useState(props.logged);
 
   function clicked() {
       document.getElementById("text").textContent = "Yay";
       props.click();
     }
-
-  function checkity() {
-    if(props.logged === false) {
-      window.location.href = "http://localhost:3000/login/";
-      }
-  }
 
   useEffect(() => {
     const data = window.localStorage.getItem('Login_Status');
@@ -26,13 +20,17 @@ function Home(props) {
     window.localStorage.setItem('Login_Status', JSON.stringify(checkLogged));
   }, [checkLogged]);
 
+  if(checkLogged === true)
+  {
+
   return (
-    <div className="Home" onLoad={checkity()}>
+    <div className="Home">
       <main>
       <p id='text' onClick={clicked}>Hello</p>
       </main>
     </div>
   );
+  }
 }
 
 export default Home;

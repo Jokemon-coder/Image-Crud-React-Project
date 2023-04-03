@@ -34,26 +34,35 @@ function App() {
   
   
   */
-
-  /*const setToNotLogged = (bool) => {
-    setLogged(bool);
-    
-  }*/  
-
-  function check() {
+  
+  function check() { //Check if user is logged and they're on a page, redirect
     console.log(checkLogged);
+    if(checkLogged === true && window.location.href === "http://localhost:3000/login")
+    {
+      window.location.href = "http://localhost:3000/";
+    }
+    if(checkLogged === false && window.location.href === "http://localhost:3000/")
+    {
+      window.location.href = "http://localhost:3000/login";
+    }
   }
 
-  function whatever() {
-    setLogged(true);
-    console.log(checkLogged);
+  function LogInOut() {
+    if(checkLogged === false)
+    {
+      setLogged(true);
+    }
+    else
+    {
+      setLogged(false);
+    }
   }
 
   return (
-    <div className="App" onLoad={check}>
+    <div className="App" onLoad={check()}>
       <Routes>
-      <Route exact path="/" element={<Home logged={checkLogged} setChanged={setLoggedState} click={whatever} /*onLoad={check()}*//>}/>
-      <Route exact path="/login" element={<LoginRegister logged={checkLogged} setChanged={setLoggedState} click={whatever} onLoad={check()}/>}/>
+      <Route exact path="/" element={<Home logged={checkLogged} setChanged={setLoggedState} click={LogInOut}/>}/>
+      <Route exact path="/login" element={<LoginRegister logged={checkLogged} setChanged={setLoggedState} click={LogInOut}/>}/>
       </Routes>
     </div>
   );

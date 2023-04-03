@@ -7,7 +7,7 @@ import {Route, Routes} from 'react-router-dom';
 function App() {
 
   //Login_Status jostakin syystä toimii tuolla. Päivittyy ja pysyy refreshing jälkeen. 
-  const[checkLogged, setLogged] = useState(JSON.parse(localStorage.getItem('Login_Status')) ?? [{status: true}]);
+  const[checkLogged, setLogged] = useState(JSON.parse(localStorage.getItem('Login_Status')) ?? false);
 
   const setLoggedState = (bool) => {
     setLogged(bool);
@@ -18,7 +18,7 @@ function App() {
   useEffect(() => { 
     const data = window.localStorage.getItem('Login_Status');
     console.log('data', data);
-    if(data !== null) setLoggedState(JSON.parse(data));
+    if(data !== null) setLogged(JSON.parse(data));
   }, []);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ function App() {
     <div className="App" onLoad={check}>
       <Routes>
       <Route exact path="/" element={<Home logged={checkLogged} setChanged={setLoggedState} click={whatever} /*onLoad={check()}*//>}/>
-      <Route exact path="/login" element={<LoginRegister logged={checkLogged} setChanged={setLoggedState} onLoad={check()}/>}/>
+      <Route exact path="/login" element={<LoginRegister logged={checkLogged} setChanged={setLoggedState} click={whatever} onLoad={check()}/>}/>
       </Routes>
     </div>
   );

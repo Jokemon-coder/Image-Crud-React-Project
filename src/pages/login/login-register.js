@@ -12,6 +12,16 @@ function LoginRegister(props) {
   const [isHovering, setHovering] = useState(false);
 
   const [loginState, setLoginState] = useState(props.logged);
+
+  useEffect(() => {
+    const data = window.localStorage.getItem('Login_Status');
+    console.log('data', data);
+    if(data !== null) setLoginState(JSON.parse(data));
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem('Login_Status', JSON.stringify(loginState));
+  }, [loginState]);
   
   //Pitää laittaa niin, että ne on riippuvaisia toisistaan ja ottaa tietonsa toisistaa. Pitää liittaa kirjautumiseen
   //console.log(props.logged);
@@ -47,12 +57,11 @@ function LoginRegister(props) {
   const checkUser = () => {
     const usercheck = Accounts.find(user => (user.username === data.username && user.password === data.password));
     if(usercheck) {
-      //props.setChanged(true);
       console.log("Login successful");
+      props.click();
       window.location.href = "http://localhost:3000/";
     }else {
       console.log("Wrong password or username");
-
     }
   }
 

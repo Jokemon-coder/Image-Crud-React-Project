@@ -1,8 +1,29 @@
-p {
+#Home {
+    position: relative;
+}
+
+#WelcomeToMain {
     display: block;
-    width: fit-content;
-    height: fit-content;
     margin: 0 auto;
-    font-size: 20px;
-    color: black;
+    width: 100%;
+    height: auto;
+    padding-top: 100px;
+
+}
+
+#WelcomeTextDiv {
+    display: inherit;
+    width: 50%;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    border: solid 4px;
+    border-color: #212121;
+    background-color: #0b7b9e;
+    border-radius: 50px;
+}
+
+#WelcomeToMain p {
+    font-size: 30px;
+    color: #f2f3f4;
 }

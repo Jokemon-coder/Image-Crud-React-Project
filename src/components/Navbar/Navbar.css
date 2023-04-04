@@ -1,0 +1,21 @@
+#Navbar {
+    list-style: none;
+    width: auto;
+    height: fit-content;
+    overflow: hidden;
+    background-color: #0b7b9e;
+    border: 2px solid #212121;
+}
+
+.NavItem {
+    display: inline;
+    float: right;
+    width: auto;
+    font-size: 40px;
+    margin: 5px;
+    color: #f2f3f4;
+}
+
+.NavItem:hover {
+    color: #00447c;
+}

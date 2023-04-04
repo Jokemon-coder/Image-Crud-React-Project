@@ -26,7 +26,11 @@ function Home(props) {
   return (
     <div className="Home">
       <main>
-      <p id='text' onClick={clicked}>Hello</p>
+        <section id='WelcomeToMain'>
+          <div id='WelcomeTextDiv'>
+          <p id='text'>You have succesfully logged in! This is the main page, or at least it will be.</p>
+          </div>
+        </section>
       </main>
     </div>
   );

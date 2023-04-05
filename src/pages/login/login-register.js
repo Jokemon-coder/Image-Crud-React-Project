@@ -1,8 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import './login.css';
-import ShowImg from './images/eye.png';
-import HideImg from './images/eye-crossed.png';
+import ShowImg from './images/eyeLight.png';
+import HideImg from './images/eye-crossedLight.png';
 import Accounts from '../../components/Accounts.json';
 
 function LoginRegister(props) {
@@ -14,13 +14,13 @@ function LoginRegister(props) {
   const [loginState, setLoginState] = useState(props.logged);
 
   useEffect(() => {
-    const data = window.localStorage.getItem('Login_Status');
+    const data = window.sessionStorage.getItem('Login_Status');
     console.log('data', data);
     if(data !== null) setLoginState(JSON.parse(data));
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem('Login_Status', JSON.stringify(loginState));
+    window.sessionStorage.setItem('Login_Status', JSON.stringify(loginState));
   }, [loginState]);
 
   //Initial state for the username and password
@@ -52,7 +52,7 @@ function LoginRegister(props) {
     if(isHovering === false)
     {
       setHovering(true);
-      document.getElementById("LoginButton").style.border = "solid 3px";
+      document.getElementById("LoginButton").style.border = "solid 3px #0b7b9e";
     }else
     {
       setHovering(false);
@@ -85,14 +85,14 @@ function LoginRegister(props) {
   return (
     <>
         <section id='LoginForm' className='Form'>
-        <div id='Login'>
-        <h1>Login</h1>
+        <div id='Login' className='MainElementBackground'>
+        <h1 className='MainElementText'>Login</h1>
         <div className='PasswordAndButton'>
-        <input id="User" className="UserPass" type="text" placeholder="Username" onChange={handleInput}></input>
-        <input id="Pass" className="UserPass" type={display[0]} placeholder="Password" onChange={handleInput}></input>
+        <input id="User" className="UserPass MainElementTextBackground" type="text" placeholder="Username" onChange={handleInput}></input>
+        <input id="Pass" className="UserPass MainElementTextBackground" type={display[0]} placeholder="Password" onChange={handleInput}></input>
         <img id='PasswordNot' className='PasswordEye' src={display[1]} alt="Show password" onClick={() => showHidePassword()}></img>
         </div>
-        <button className='LoginRegButton' id='LoginButton' onClick={checkUser} onMouseOver={mouseOverAndOut} onMouseOut={mouseOverAndOut}>Login</button>
+        <button className='LoginRegButton MainElementChildBackground MainElementText' id='LoginButton' onClick={checkUser} onMouseOver={mouseOverAndOut} onMouseOut={mouseOverAndOut}>Login</button>
         </div>
         <div></div>
         </section>

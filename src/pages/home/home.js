@@ -11,13 +11,13 @@ function Home(props) {
     }
 
   useEffect(() => {
-    const data = window.localStorage.getItem('Login_Status');
+    const data = window.sessionStorage.getItem('Login_Status');
     console.log('data', data);
     if(data !== null) setLogged(JSON.parse(data));
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem('Login_Status', JSON.stringify(checkLogged));
+    window.sessionStorage.setItem('Login_Status', JSON.stringify(checkLogged));
   }, [checkLogged]);
 
   if(checkLogged === true)

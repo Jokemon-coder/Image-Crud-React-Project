@@ -9,10 +9,6 @@ body, .LoginRegister {
     background-color: #FFFFFF;
 }
 
-h1 {
-    color: #000000;
-}
-
 .Light {
     background-color: #FFFFFF;
 }
@@ -83,7 +79,6 @@ h1 {
     padding: 2px;
     font-size: 20px;
     text-align: center;
-    background-color: inherit;
     cursor: pointer;
 
 }
@@ -91,7 +86,7 @@ h1 {
 #LoginButton {
     margin-top: 20px;
     height: 15%;
-    border-radius: 50px;
+    border: none;
 }
 
 .PasswordEye {

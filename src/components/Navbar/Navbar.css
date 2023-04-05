@@ -1,10 +1,10 @@
 #Navbar {
     list-style: none;
     width: auto;
-    height: fit-content;
+    height: auto;
     overflow: hidden;
-    background-color: #0b7b9e;
-    border: 2px solid #212121;
+    border: 2px solid;
+    padding: 10px;
 }
 
 .NavItem {
@@ -16,6 +16,6 @@
     color: #f2f3f4;
 }
 
-.NavItem:hover {
-    color: #00447c;
-}
+/*.NavItem:hover {
+    background-color: #0b7b9e;
+}*/

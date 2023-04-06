@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Navbar.css";
 
-function Navbar() {
+function Navbar(props) {
 
     /*const[isHovering, setHovering] = useState(false);
 
@@ -26,33 +26,30 @@ function Navbar() {
     <li className={[className, "NavItem"].join(" ")} onMouseOver={() => setHovering(true)} onMouseOut={() => setHovering(false)}>Example</li>
     
     */
+    
 
+    const navClick = () => {
+        props.logout();
+    }
+
+    if(window.location.href !== "http://localhost:3000/login")
+    {
     return(
         <React.Fragment>
             <ul id="Navbar" className="MainElementBackground">
-            <ListItem content="Hi"/>
-            <ListItem content="Hi"/>
-            <ListItem content="Hi"/>
-            <ListItem content="Hi"/>
+            <ListItem content="Logout" click={navClick}/>
+            <ListItem content="Example"/>
             </ul>
         </React.Fragment>
     );
+    }
 }
 
 function ListItem(props) {
-    const[isHovering, setHovering] = useState(false);
-
-    /*const mouseOverAndOut = (target) => {
-        if(isHovering === false)
-        {
-            setHovering(true);
-            console.log(navItem);
-        }
-    }*/
-
+const[isHovering, setHovering] = useState(false);
     return(
         <React.Fragment>
-            <li className={[isHovering ? "MainElementChildBackgroundFocus" : "MainElementChildBackground", "NavItem"].join(" ")/*[isHovering ? "MainElementChildBackgroundFocus" : "MainElementChildBackground", "NavItem"].join(" ")*/} onMouseOver={() => setHovering(!isHovering)} onMouseOut={() => setHovering(!isHovering)}>{props.content}</li>
+            <li className={[isHovering ? "MainElementChildBackgroundFocus" : "MainElementChildBackground", "NavItem"].join(" ")/*[isHovering ? "MainElementChildBackgroundFocus" : "MainElementChildBackground", "NavItem"].join(" ")*/} onClick={props.click} onMouseOver={() => setHovering(!isHovering)} onMouseOut={() => setHovering(!isHovering)}>{props.content}</li>
          </React.Fragment>
     )
 }

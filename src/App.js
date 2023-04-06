@@ -61,7 +61,7 @@ function App() {
 
   return (
     <div className="App" onLoad={check()}>
-      <Navbar/>
+      <Navbar logged={checkLogged} logout={LogInOut}/>
       <Routes>
       <Route exact path="/" element={<Home logged={checkLogged} setChanged={setLoggedState} click={LogInOut}/>}/>
       <Route exact path="/login" element={<LoginRegister logged={checkLogged} setChanged={setLoggedState} click={LogInOut}/>}/>

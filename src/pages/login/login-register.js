@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './login.css';
 import ShowImg from './images/eyeLight.png';
 import HideImg from './images/eye-crossedLight.png';
@@ -11,7 +11,7 @@ function LoginRegister(props) {
   const [display, setDisplay] = useState(["password", ShowImg]);
   const [isHovering, setHovering] = useState(false);
 
-  const [loginState, setLoginState] = useState(props.logged);
+  /*const [loginState, setLoginState] = useState(props.logged);
 
   useEffect(() => {
     const data = window.sessionStorage.getItem('Login_Status');
@@ -22,6 +22,7 @@ function LoginRegister(props) {
   useEffect(() => {
     window.sessionStorage.setItem('Login_Status', JSON.stringify(loginState));
   }, [loginState]);
+  */
 
   //Initial state for the username and password
   const [data, setData] = useState(
@@ -79,7 +80,7 @@ function LoginRegister(props) {
     document.getElementById("PasswordNot").style.src = imgSrc;
   }, [imgSrc]);*/
 
-  if(loginState === false) //If statement put in place so that when an onload event happens from app, it wont show the content of the page if user is logged in and the page is redirected
+  if(props.logged === false) //If statement put in place so that when an onload event happens from app, it wont show the content of the page if user is logged in and the page is redirected
   {
 
   return (

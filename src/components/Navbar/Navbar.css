@@ -11,9 +11,11 @@
     display: inline;
     float: right;
     width: auto;
+    height: 100%;
     font-size: 40px;
     margin: 5px;
     color: #f2f3f4;
+    cursor: pointer;
 }
 
 /*.NavItem:hover {

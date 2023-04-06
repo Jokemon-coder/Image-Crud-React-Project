@@ -3,7 +3,44 @@ import "./Navbar.css";
 
 function Navbar() {
 
-    const[isHovering, setHovering]= useState([false, "MainElementChildBackground"]);
+    /*const[isHovering, setHovering] = useState(false);
+
+    const mouseOverAndOut = (target) => {
+        if(isHovering === false)
+        {
+            setHovering(true);
+            console.log(navItem);
+        }
+    }
+
+    var className = "MainElementChildBackground";
+
+    if(isHovering) {
+        className += "Focus";
+    }*/
+
+    /*
+    <li className={[className, "NavItem"].join(" ")/*[isHovering ? "MainElementChildBackgroundFocus" : "MainElementChildBackground", "NavItem"].join(" ")} onMouseOver={() => setHovering(true)} onMouseOut={() => setHovering(false)}>Example</li>
+    <li className={[className, "NavItem"].join(" ")} onMouseOver={() => setHovering(true)} onMouseOut={() => setHovering(false)}>Example</li>
+    <li className={[className, "NavItem"].join(" ")} onMouseOver={() => setHovering(true)} onMouseOut={() => setHovering(false)}>Example</li>
+    <li className={[className, "NavItem"].join(" ")} onMouseOver={() => setHovering(true)} onMouseOut={() => setHovering(false)}>Example</li>
+    
+    */
+
+    return(
+        <React.Fragment>
+            <ul id="Navbar" className="MainElementBackground">
+            <ListItem content="Hi"/>
+            <ListItem content="Hi"/>
+            <ListItem content="Hi"/>
+            <ListItem content="Hi"/>
+            </ul>
+        </React.Fragment>
+    );
+}
+
+function ListItem(props) {
+    const[isHovering, setHovering] = useState(false);
 
     /*const mouseOverAndOut = (target) => {
         if(isHovering === false)
@@ -12,32 +49,12 @@ function Navbar() {
             console.log(navItem);
         }
     }*/
-    const mouseOverAndOut = (e) => {
-        if(isHovering[0] === false)
-        {
-            e.target.classList.remove(isHovering[1]);
-            e.target.classList.add("MainElementChildBackgroundFocus");
-            setHovering([true, "MainElementChildBackgroundFocus"]);
-            console.log(isHovering);
-
-        }else
-        {
-            e.target.classList.remove(isHovering[1]);
-            e.target.classList.add("MainElementChildBackground");
-            setHovering([false, "MainElementChildBackground"]);
-        }
-    }
 
     return(
         <React.Fragment>
-            <ul id="Navbar" className="MainElementBackground">
-                <li className="NavItem MainElementChildBackground" onMouseOver={mouseOverAndOut} onMouseOut={mouseOverAndOut}>Example</li>
-                <li className="NavItem MainElementChildBackground">Example</li>
-                <li className="NavItem MainElementChildBackground">Example</li>
-                <li className="NavItem MainElementChildBackground">Example</li>
-            </ul>
-        </React.Fragment>
-    );
+            <li className={[isHovering ? "MainElementChildBackgroundFocus" : "MainElementChildBackground", "NavItem"].join(" ")/*[isHovering ? "MainElementChildBackgroundFocus" : "MainElementChildBackground", "NavItem"].join(" ")*/} onMouseOver={() => setHovering(!isHovering)} onMouseOut={() => setHovering(!isHovering)}>{props.content}</li>
+         </React.Fragment>
+    )
 }
 
 export default Navbar;

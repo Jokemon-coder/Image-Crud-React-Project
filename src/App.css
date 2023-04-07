@@ -55,3 +55,11 @@ Color classes
   background-color: #0b7b9c;
 }
 
+.MainElementChildBorder {
+  border: none;
+}
+
+.MainElementChildBorderFocus {
+  border: solid 3px #0b7b9e;
+}
+

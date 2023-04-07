@@ -86,7 +86,6 @@ body, .LoginRegister {
 #LoginButton {
     margin-top: 20px;
     height: 15%;
-    border: none;
 }
 
 .PasswordEye {

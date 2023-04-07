@@ -11,19 +11,6 @@ function LoginRegister(props) {
   const [display, setDisplay] = useState(["password", ShowImg]);
   const [isHovering, setHovering] = useState(false);
 
-  /*const [loginState, setLoginState] = useState(props.logged);
-
-  useEffect(() => {
-    const data = window.sessionStorage.getItem('Login_Status');
-    console.log('data', data);
-    if(data !== null) setLoginState(JSON.parse(data));
-  }, []);
-
-  useEffect(() => {
-    window.sessionStorage.setItem('Login_Status', JSON.stringify(loginState));
-  }, [loginState]);
-  */
-
   //Initial state for the username and password
   const [data, setData] = useState(
     {
@@ -50,16 +37,25 @@ function LoginRegister(props) {
 
   //Handle hovering
   const mouseOverAndOut = () => {
-    if(isHovering === false)
-    {
-      setHovering(true);
-      document.getElementById("LoginButton").style.border = "solid 3px #0b7b9e";
-    }else
-    {
-      setHovering(false);
-      document.getElementById("LoginButton").style.border = "";
-    };
+    setHovering(!isHovering);
   };
+
+  var elements = document.querySelectorAll("UserPass");
+
+  for(let i = 0; i > elements.length; i++)
+  {
+    elements[i].onkeydown = (e) => {
+      console.log(e);
+    }
+  }
+
+  const nextElement = (e) => {
+    if(e.key === "Enter")
+    {
+      console.log(e);
+    }
+  }
+
 
   //Handle click on password eye icon and change accordingly.
   const showHidePassword = () => {
@@ -90,10 +86,10 @@ function LoginRegister(props) {
         <h1 className='MainElementText'>Login</h1>
         <div className='PasswordAndButton'>
         <input id="User" className="UserPass MainElementTextBackground" type="text" placeholder="Username" onChange={handleInput}></input>
-        <input id="Pass" className="UserPass MainElementTextBackground" type={display[0]} placeholder="Password" onChange={handleInput}></input>
+        <input id="Pass" className="UserPass MainElementTextBackground" type={display[0]} placeholder="Password" onChange={handleInput} ></input>
         <img id='PasswordNot' className='PasswordEye' src={display[1]} alt="Show password" onClick={() => showHidePassword()}></img>
         </div>
-        <button className='LoginRegButton MainElementChildBackground MainElementText' id='LoginButton' onClick={checkUser} onMouseOver={mouseOverAndOut} onMouseOut={mouseOverAndOut}>Login</button>
+        <button className={[isHovering ? "MainElementChildBorderFocus" : "MainElementChildBorder" ,"LoginRegButton MainElementChildBackground MainElementText"].join(" ")} id='LoginButton' onClick={checkUser} onMouseOver={mouseOverAndOut} onMouseOut={mouseOverAndOut}>Login</button>
         </div>
         <div></div>
         </section>

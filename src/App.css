@@ -51,14 +51,17 @@ Color classes
   background-color: #00447c;
 }
 
+/*Main background change on focus for when focus is not with a border*/
 .MainElementChildBackgroundFocus {
   background-color: #0b7b9c;
 }
 
+/*Normal border when not focusing*/
 .MainElementChildBorder {
   border: none;
 }
 
+/*Border when focusing*/
 .MainElementChildBorderFocus {
   border: solid 3px #0b7b9e;
 }

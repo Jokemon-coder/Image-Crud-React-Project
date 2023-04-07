@@ -2,6 +2,7 @@ import React from 'react';
 import './home.css';
 
 function Home(props) {
+  //If the user login status is true, render the page. This is to fix the page rendering and showing for a second when loading and reloading to the login page
   if(props.logged === true)
   {
   return (

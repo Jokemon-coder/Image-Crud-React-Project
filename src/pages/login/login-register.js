@@ -71,11 +71,6 @@ function LoginRegister(props) {
     };
   };
 
-  //Works without useEffect, but leaving it here just in case
-  /*useEffect(() => {
-    document.getElementById("PasswordNot").style.src = imgSrc;
-  }, [imgSrc]);*/
-
   if(props.logged === false) //If statement put in place so that when an onload event happens from app, it wont show the content of the page if user is logged in and the page is redirected
   {
 

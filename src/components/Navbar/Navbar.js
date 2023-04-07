@@ -47,9 +47,14 @@ function Navbar(props) {
 
 function ListItem(props) {
 const[isHovering, setHovering] = useState(false);
+
+const mouseOverAndOut = () => {
+    setHovering(!isHovering);
+}
+
     return(
         <React.Fragment>
-            <li className={[isHovering ? "MainElementChildBackgroundFocus" : "MainElementChildBackground", "NavItem"].join(" ")/*[isHovering ? "MainElementChildBackgroundFocus" : "MainElementChildBackground", "NavItem"].join(" ")*/} onClick={props.click} onMouseOver={() => setHovering(!isHovering)} onMouseOut={() => setHovering(!isHovering)}>{props.content}</li>
+            <li className={[isHovering ? "MainElementChildBackgroundFocus" : "MainElementChildBackground", "NavItem"].join(" ")} onClick={props.click} onMouseOver={mouseOverAndOut} onMouseOut={mouseOverAndOut}>{props.content}</li>
          </React.Fragment>
     )
 }

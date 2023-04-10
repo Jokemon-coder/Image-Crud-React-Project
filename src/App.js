@@ -7,8 +7,13 @@ import {Route, Routes} from 'react-router-dom';
 
 function App() {
 
-  //Login_Status jostakin syystä toimii tuolla. Päivittyy ja pysyy refreshing jälkeen. 
-  const[checkLogged, setLogged] = useState(JSON.parse(sessionStorage.getItem('Login_Status')) ?? false);
+  function load() {
+    check();
+    startCheckingUser();
+  }
+
+  //State for the login status, that is set in  localStorage
+  const[checkLogged, setLogged] = useState(JSON.parse(localStorage.getItem('Login_Status')) ?? false);
 
   const setLoggedState = (bool) => {
     setLogged(bool);
@@ -17,24 +22,14 @@ function App() {
 
   //Local storageen Login_Status ja sen arvo true/false useEffectin kanssa. Toinen hakee arvon ja toinen asettaa sen.
   useEffect(() => { 
-    const data = window.sessionStorage.getItem('Login_Status');
+    const data = window.localStorage.getItem('Login_Status');
     console.log('data', data);
     if(data !== null) setLogged(JSON.parse(data));
   }, []);
 
   useEffect(() => {
-    window.sessionStorage.setItem('Login_Status', JSON.stringify(checkLogged));
+    window.localStorage.setItem('Login_Status', JSON.stringify(checkLogged));
   }, [checkLogged]);
-
-  /*
-  PITÄISI SAADA TOIMINAAN NIIN, ETTÄ LOGIN_STATUS ASETTUU TRUE/FALSE RIIPPUEN SIITÄ ONKO KÄYTTÄJÄ KIRJAUTUNUT LOGIN-SIVULLA. 
-  PITÄÄ SAADA MYÖS NIIN, ETTÄ JOS LOGIN_STATUS ON FALSE, NIIN HEITÄ SUORAAN LOGIN-SIVULLE KOTISIVULTA.
-
-  Haloo
-  
-  
-  
-  */
   
   function check() { //Check if user is logged and they're on a page, redirect
     console.log(checkLogged);
@@ -45,6 +40,41 @@ function App() {
     if(checkLogged === false && window.location.href === "http://localhost:3000/")
     {
       window.location.href = "http://localhost:3000/login";
+    }
+  }
+  
+  var logoutTimer = 0;
+
+  function startCheckingUser () {
+    logoutTimer = setInterval(AutoLogout, 20000)
+    startWarningTimer();
+  }
+
+  function stopCheckingUser () {
+    clearInterval(logoutTimer);
+    logoutTimer = setInterval(AutoLogout, 20000);
+    console.log("Hi");
+    
+  }
+
+  function AutoLogout() {
+    setLogged(false);
+  }
+
+  var warningTimer = 0;
+
+  function startWarningTimer () {
+    warningTimer = setTimeout(warningPopup, 10000)
+  }
+
+  function restartWarningTimer () {
+    clearTimeout(warningTimer);
+  }
+
+  function warningPopup () {
+    if(window.alert("You will be logged out automatically in 2 minutes unless you press ok."))
+    {
+      restartWarningTimer();
     }
   }
 
@@ -60,7 +90,7 @@ function App() {
   }
 
   return (
-    <div className="App" onLoad={check()}>
+    <div className="App" onLoad={load()} onMouseMove={stopCheckingUser} onClick={stopCheckingUser} onKeyDown={stopCheckingUser} onScroll={stopCheckingUser}>
       <Navbar logged={checkLogged} logout={LogInOut}/>
       <Routes>
       <Route exact path="/" element={<Home logged={checkLogged} setChanged={setLoggedState} click={LogInOut}/>}/>

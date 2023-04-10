@@ -2,32 +2,7 @@ import React, { useState } from "react";
 import "./Navbar.css";
 
 function Navbar(props) {
-
-    /*const[isHovering, setHovering] = useState(false);
-
-    const mouseOverAndOut = (target) => {
-        if(isHovering === false)
-        {
-            setHovering(true);
-            console.log(navItem);
-        }
-    }
-
-    var className = "MainElementChildBackground";
-
-    if(isHovering) {
-        className += "Focus";
-    }*/
-
-    /*
-    <li className={[className, "NavItem"].join(" ")/*[isHovering ? "MainElementChildBackgroundFocus" : "MainElementChildBackground", "NavItem"].join(" ")} onMouseOver={() => setHovering(true)} onMouseOut={() => setHovering(false)}>Example</li>
-    <li className={[className, "NavItem"].join(" ")} onMouseOver={() => setHovering(true)} onMouseOut={() => setHovering(false)}>Example</li>
-    <li className={[className, "NavItem"].join(" ")} onMouseOver={() => setHovering(true)} onMouseOut={() => setHovering(false)}>Example</li>
-    <li className={[className, "NavItem"].join(" ")} onMouseOver={() => setHovering(true)} onMouseOut={() => setHovering(false)}>Example</li>
     
-    */
-    
-
     const navClick = () => {
         props.logout();
     }

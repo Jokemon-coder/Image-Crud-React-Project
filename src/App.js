@@ -3,13 +3,18 @@ import './App.css';
 import LoginRegister from './pages/login/login-register';
 import Home from './pages/home/home';
 import Navbar from './components/Navbar/Navbar';
+import Popup from './components/Popup/Popup'
 import {Route, Routes} from 'react-router-dom';
 
 function App() {
 
   function load() {
     check();
-    startCheckingUser();
+    if(window.location.href !== "http://localhost:3000/login")
+    {
+      startCheckingUser();
+      //startWarningTimer();
+    }
   }
 
   //State for the login status, that is set in  localStorage
@@ -46,36 +51,48 @@ function App() {
   var logoutTimer = 0;
 
   function startCheckingUser () {
-    logoutTimer = setInterval(AutoLogout, 20000)
-    startWarningTimer();
+    logoutTimer = setTimeout(AutoLogout, 20000)
   }
 
   function stopCheckingUser () {
-    clearInterval(logoutTimer);
-    logoutTimer = setInterval(AutoLogout, 20000);
-    console.log("Hi");
-    
+    clearTimeout(logoutTimer);
+    //endWarningTimer();
+    startCheckingUser();
+    //startWarningTimer();
+    console.log("Hi"); 
+  }
+
+  //For some reason using OR || here doesn't stop StopCheckingUser from firing. Using AND && for now unless fix is found
+  const stopOnUserAction = () => {
+    if(window.location.href !== "http://localhost:3000/login" || document.getElementById("WarningPopup").style.display !== "none")
+    {
+      stopCheckingUser();
+    }
   }
 
   function AutoLogout() {
     setLogged(false);
   }
 
-  var warningTimer = 0;
+  const [hasBeenWarned, setWarning] = useState(false);
+
+  var warningTimer;
 
   function startWarningTimer () {
-    warningTimer = setTimeout(warningPopup, 10000)
+    warningTimer = setInterval(warningPopup, 10000)
   }
 
-  function restartWarningTimer () {
-    clearTimeout(warningTimer);
+  function endWarningTimer () {
+    clearInterval(warningTimer);
   }
 
   function warningPopup () {
-    if(window.alert("You will be logged out automatically in 2 minutes unless you press ok."))
-    {
-      restartWarningTimer();
+      endWarningTimer()
+      setWarning(!hasBeenWarned);
     }
+
+  function clearPopup() {
+    setWarning(!hasBeenWarned);
   }
 
   function LogInOut() {
@@ -90,7 +107,8 @@ function App() {
   }
 
   return (
-    <div className="App" onLoad={load()} onMouseMove={stopCheckingUser} onClick={stopCheckingUser} onKeyDown={stopCheckingUser} onScroll={stopCheckingUser}>
+    <div className="App" onLoad={load()} onMouseMove={stopOnUserAction} onClick={stopOnUserAction} onKeyDown={stopOnUserAction} onScroll={stopOnUserAction}>
+      <Popup id="WarningPopup" warning={hasBeenWarned} startClick={clearPopup}/>
       <Navbar logged={checkLogged} logout={LogInOut}/>
       <Routes>
       <Route exact path="/" element={<Home logged={checkLogged} setChanged={setLoggedState} click={LogInOut}/>}/>

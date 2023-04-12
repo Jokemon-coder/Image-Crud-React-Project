@@ -5,14 +5,13 @@ import Home from './pages/home/home';
 import Navbar from './components/Navbar/Navbar';
 import Popup from './components/Popup/Popup'
 import {Route, Routes} from 'react-router-dom';
-
 function App() {
 
   function load() {
     check();
     if(window.location.href !== "http://localhost:3000/login")
     {
-      startCheckingUser();
+      //startCheckingUser();
       //startWarningTimer();
     }
   }
@@ -48,51 +47,60 @@ function App() {
     }
   }
   
-  var logoutTimer = 0;
+  //State for the useEffect to keep track of
+  const [logoutTimer, setTimer] = useState();
+  var logoutTime;
 
-  function startCheckingUser () {
-    logoutTimer = setTimeout(AutoLogout, 20000)
+  //Update function for the timer, is called when logoutTime is cleared and logoutTimer state is changed
+  const updateLogout = () => {
+    logoutTime = setTimeout(() => {
+      AutoLogout();
+    }, 20000);
+  }
+  //useEffect setting the timer to true on initial render and calling updateLogout. Its dependency is the logoutTimer and its state
+  useEffect(() => {
+    setTimer(true);
+    updateLogout();
+    return () => clearTimeout(logoutTime);
+  },[logoutTimer])
+
+  const [warningTimer, setWarnTimer] = useState();
+  var warningTime;
+
+  const updateWarning = () => {
+    warningTime = setTimeout(() => {
+      setWarnTimer(true);
+      warningPopup();
+    }, 10000);
   }
 
-  function stopCheckingUser () {
-    clearTimeout(logoutTimer);
-    //endWarningTimer();
-    startCheckingUser();
-    //startWarningTimer();
-    console.log("Hi"); 
-  }
-
-  //For some reason using OR || here doesn't stop StopCheckingUser from firing. Using AND && for now unless fix is found
-  const stopOnUserAction = () => {
+  useEffect(() => {
+    //Don't call updateWarning if the page is login or the popup is already displayed
     if(window.location.href !== "http://localhost:3000/login" || document.getElementById("WarningPopup").style.display !== "none")
     {
-      stopCheckingUser();
+      updateWarning();
     }
-  }
+    return () => clearTimeout(warningTime);
+  },[warningTimer])
 
+  //Just set the login_status to false, forcing a relocation to login page
   function AutoLogout() {
     setLogged(false);
   }
 
   const [hasBeenWarned, setWarning] = useState(false);
 
-  var warningTimer;
-
-  function startWarningTimer () {
-    warningTimer = setInterval(warningPopup, 10000)
-  }
-
-  function endWarningTimer () {
-    clearInterval(warningTimer);
-  }
-
+  //Clear the timeout and set hasBeenWarned. Popup visibility is dependant on that state.
   function warningPopup () {
-      endWarningTimer()
-      setWarning(!hasBeenWarned);
+      clearTimeout(warningTime);
+      setWarning(true);
     }
 
+  //Clear the popup, set hasBeenWarned back to false and change the states of the timers, which results in useEffect being executed again
   function clearPopup() {
-    setWarning(!hasBeenWarned);
+    setWarning(false);
+    setWarnTimer(false);
+    setTimer(false);
   }
 
   function LogInOut() {
@@ -107,7 +115,7 @@ function App() {
   }
 
   return (
-    <div className="App" onLoad={load()} onMouseMove={stopOnUserAction} onClick={stopOnUserAction} onKeyDown={stopOnUserAction} onScroll={stopOnUserAction}>
+    <div className="App" onLoad={load()} /*onMouseMove={stopOnUserAction} onClick={stopOnUserAction} onKeyDown={stopOnUserAction} onScroll={stopOnUserAction}*/>
       <Popup id="WarningPopup" warning={hasBeenWarned} startClick={clearPopup}/>
       <Navbar logged={checkLogged} logout={LogInOut}/>
       <Routes>

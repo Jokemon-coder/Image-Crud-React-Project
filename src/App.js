@@ -46,6 +46,30 @@ function App() {
       window.location.href = "http://localhost:3000/login";
     }
   }
+  //Userdetected that is set based on an interval of 1 second. It's based on if the detectUserActivity has been called, which sets the userDetected to true. Otherwise it will remain false
+  //userDetected being false makes the other timers go off and if userDetected state is changed to true, they will not run until it changes again to false.
+  const [userDetected, setDetected] = useState(false);
+  var userDetectionTimer;
+
+  const setDetection = () => {
+      userDetectionTimer = setInterval(() => {
+        clearInterval(userDetectionTimer);
+        console.log(userDetected);
+        setDetected(false);
+      }, 1000);
+  }
+
+  useEffect(() => {
+    if(window.location.href !== "http://localhost:3000/login"){
+      setDetection();
+      window.addEventListener("mousemove", detectUserActivity);
+  
+      return () => {
+        clearInterval(userDetectionTimer);
+        window.removeEventListener("mousemove", detectUserActivity);
+      }
+    }
+  }, [detectUserActivity])
   
   //State for the useEffect to keep track of
   //const [logoutTimer, setTimer] = useState();
@@ -61,15 +85,19 @@ function App() {
   }
   //useEffect setting the timer to true on initial render and calling updateLogout. Its dependency is the logoutTimer and its state
   useEffect(() => {
-    if(window.location.href !== "http://localhost:3000/login")
+    if(window.location.href !== "http://localhost:3000/login" && userDetected === false)
     {
       //setTimer(true);
       updateLogout();
       logoutTimer.current = logoutTime;
+      window.addEventListener("mousemove", detectUserActivity);
     }
 
-    return () => clearTimeout(logoutTimer);
-  }, [clearPopup])
+    return () => {
+      clearTimeout(logoutTimer);
+      window.removeEventListener("mousemove", detectUserActivity);
+    }
+  }, [clearPopup, userDetected/*, timesDetected*/])
 
   //const [warningTimer, setWarnTimer] = useState();
   const warningTimer = useRef();
@@ -84,15 +112,19 @@ function App() {
 
   useEffect(() => {
     //Don't call updateWarning if the page is login or the popup is already displayed
-    if((window.location.href !== "http://localhost:3000/login") || (document.getElementById("WarningPopup").style.display !== "none" && hasBeenWarned === false))
+    if(((window.location.href !== "http://localhost:3000/login") || (document.getElementById("WarningPopup").style.display !== "none" && hasBeenWarned === false)) && (userDetected === false))
     {
       //setWarnTimer(true);
       updateWarning();
       warningTimer.current = warningTime;
+      window.addEventListener("mousemove", detectUserActivity);
     }
 
-    return () => clearTimeout(warningTimer);
-  }, [warningPopup])
+    return () => {
+      clearTimeout(warningTimer);
+      window.removeEventListener("mousemove", detectUserActivity);
+    }
+  }, [warningPopup, userDetected/*, timesDetected*/])
 
   //Just set the login_status to false, forcing a relocation to login page
   function AutoLogout() {
@@ -103,30 +135,31 @@ function App() {
 
   //Clear the timeout and set hasBeenWarned. Popup visibility is dependant on that state.
   function warningPopup () {
-      //clearTimeout(warningTimer);
-      setWarning(true);
+        setWarning(true);
     }
 
   //Clear the popup, set hasBeenWarned back to false and change the states of the timers, which results in useEffect being executed again
   function clearPopup() {
-    setWarning(false);
-    //clearTimeout(logoutTimer.current);
-    /*setWarnTimer(false);
-    setTimer(false);*/
+      setWarning(false);
   }
 
   function detectUserActivity() {
-    if(checkLogged === true)
+    /*if(checkLogged === true)
     {
-      /*setWarnTimer(false);
-      setTimer(false);*/
-      /*warningTimer.current = 0;
-      logoutTimer.current = 0;*/
-      console.log(warningTimer.current);
-      console.log(warningTimer);
-      console.log(logoutTimer.current);
-      console.log(logoutTimer);
+      if(timesDetected >= 100)
+      {
+        increaseTime(0);
+      }else
+      {
+        increaseTime(timesDetected+1);
+      }
+      console.log(timesDetected);
+    }*/
+    if(hasBeenWarned === false)
+    {
+      setDetected(true);
     }
+
   }
 
   function LogInOut() {

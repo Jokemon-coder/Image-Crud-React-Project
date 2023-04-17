@@ -7,13 +7,8 @@ import Popup from './components/Popup/Popup'
 import {Route, Routes} from 'react-router-dom';
 function App() {
 
-  function load() {
+  const load = () => {
     check();
-    if(window.location.href !== "http://localhost:3000/login")
-    {
-      //startCheckingUser();
-      //startWarningTimer();
-    }
   }
 
   //State for the login status, that is set in  localStorage
@@ -36,7 +31,6 @@ function App() {
   }, [checkLogged]);
   
   function check() { //Check if user is logged and they're on a page, redirect
-    console.log(checkLogged);
     if(checkLogged === true && window.location.href === "http://localhost:3000/login")
     {
       window.location.href = "http://localhost:3000/";
@@ -52,109 +46,105 @@ function App() {
   var userDetectionTimer;
 
   const setDetection = () => {
+    //If statement here so it does not set detection if the user has been warned and the popup is on screen
+    if(hasBeenWarned === false)
+    {
       userDetectionTimer = setInterval(() => {
         clearInterval(userDetectionTimer);
-        console.log(userDetected);
         setDetected(false);
       }, 1000);
+    }
   }
 
+  //useEffect to set detection timer everytime detectUserActivity is called. Also creates the user detection event listeners
   useEffect(() => {
     if(window.location.href !== "http://localhost:3000/login"){
       setDetection();
       window.addEventListener("mousemove", detectUserActivity);
+      window.addEventListener("onclick", detectUserActivity);
+      window.addEventListener("onscroll", detectUserActivity);
   
       return () => {
         clearInterval(userDetectionTimer);
         window.removeEventListener("mousemove", detectUserActivity);
+        window.removeEventListener("onclick", detectUserActivity);
+        window.removeEventListener("onscroll", detectUserActivity);
       }
     }
   }, [detectUserActivity])
   
-  //State for the useEffect to keep track of
-  //const [logoutTimer, setTimer] = useState();
+  //Ref for the useEffect to keep track of and the countdown number for automatic logout
   const logoutTimer = useRef();
   var logoutTime;
+  const [countdownNumber, decreaseNumber] = useState();
 
-  //Update function for the timer, is called when logoutTime is cleared and logoutTimer state is changed
+  //Update the logout timer, it's a timeout instead of an interval because the previous design was a timeout and attempting to convert to an interval broke the entire system.
+  //Now it just continuously sets a 1 second timeout on repeat until the countdownNumber is 1 or less. 1 instead of 0 because it would only detect 0 after another render making it go to -1.
   const updateLogout = () => {
     clearTimeout(logoutTimer.current);
     logoutTime = setTimeout(() => {
-      AutoLogout();
-    }, 10_000);
+      decreaseNumber(countdownNumber-1);
+      if(countdownNumber <= 1)
+      {
+        //AutoLogout();
+      }
+    }, 1000);
   }
   //useEffect setting the timer to true on initial render and calling updateLogout. Its dependency is the logoutTimer and its state
   useEffect(() => {
-    if(window.location.href !== "http://localhost:3000/login" && userDetected === false)
+    if(window.location.href !== "http://localhost:3000/login" && hasBeenWarned === true)
     {
-      //setTimer(true);
       updateLogout();
       logoutTimer.current = logoutTime;
-      window.addEventListener("mousemove", detectUserActivity);
     }
 
     return () => {
       clearTimeout(logoutTimer);
-      window.removeEventListener("mousemove", detectUserActivity);
     }
-  }, [clearPopup, userDetected/*, timesDetected*/])
+  }, [clearPopup, userDetected])
 
-  //const [warningTimer, setWarnTimer] = useState();
   const warningTimer = useRef();
   var warningTime;
-
   const updateWarning = () => {
     clearTimeout(warningTimer.current);
     warningTime = setTimeout(() => {
       warningPopup();
-    }, 5_000);
+    }, 10_000);
   }
 
   useEffect(() => {
     //Don't call updateWarning if the page is login or the popup is already displayed
     if(((window.location.href !== "http://localhost:3000/login") || (document.getElementById("WarningPopup").style.display !== "none" && hasBeenWarned === false)) && (userDetected === false))
     {
-      //setWarnTimer(true);
       updateWarning();
       warningTimer.current = warningTime;
-      window.addEventListener("mousemove", detectUserActivity);
     }
 
     return () => {
       clearTimeout(warningTimer);
-      window.removeEventListener("mousemove", detectUserActivity);
     }
   }, [warningPopup, userDetected/*, timesDetected*/])
 
-  //Just set the login_status to false, forcing a relocation to login page
-  function AutoLogout() {
+  //Logout function used for the automatic logout, could also be remomed since it's not used anywhere else and it's just setLogged
+  const AutoLogout = () => {
     setLogged(false);
   }
 
   const [hasBeenWarned, setWarning] = useState(false);
 
   //Clear the timeout and set hasBeenWarned. Popup visibility is dependant on that state.
-  function warningPopup () {
+  const warningPopup = () => {
         setWarning(true);
+        decreaseNumber(60); //Always reset the countdown then popup opens
     }
 
   //Clear the popup, set hasBeenWarned back to false and change the states of the timers, which results in useEffect being executed again
-  function clearPopup() {
+  const clearPopup = () => {
       setWarning(false);
   }
 
-  function detectUserActivity() {
-    /*if(checkLogged === true)
-    {
-      if(timesDetected >= 100)
-      {
-        increaseTime(0);
-      }else
-      {
-        increaseTime(timesDetected+1);
-      }
-      console.log(timesDetected);
-    }*/
+  //Detection of user activity, only possible if the user has not already been warned and the popup is not on screen
+  const detectUserActivity = () => {
     if(hasBeenWarned === false)
     {
       setDetected(true);
@@ -162,7 +152,8 @@ function App() {
 
   }
 
-  function LogInOut() {
+  //Login and out function
+  const LogInOut = () => {
     if(checkLogged === false)
     {
       setLogged(true);
@@ -174,8 +165,8 @@ function App() {
   }
 
   return (
-    <div tabIndex={0} className="App" onLoad={load()} onClick={detectUserActivity} onKeyDown={detectUserActivity} onScroll={detectUserActivity}>
-      <Popup id="WarningPopup" warning={hasBeenWarned} startClick={clearPopup}/>
+    <div tabIndex={0} className="App" onLoad={load}>
+      <Popup id="WarningPopup" warning={hasBeenWarned} startClick={clearPopup} number={countdownNumber}/>
       <Navbar logged={checkLogged} logout={LogInOut}/>
       <Routes>
       <Route exact path="/" element={<Home logged={checkLogged} setChanged={setLoggedState} click={LogInOut}/>}/>

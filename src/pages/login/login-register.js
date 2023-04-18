@@ -4,6 +4,7 @@ import './login.css';
 import ShowImg from './images/eyeLight.png';
 import HideImg from './images/eye-crossedLight.png';
 import Accounts from '../../components/Accounts.json';
+import { useNavigate } from 'react-router-dom';
 
 function LoginRegister(props) {
 
@@ -24,12 +25,15 @@ function LoginRegister(props) {
   }
 
   //Try to find entered data by username and password from Accounts. If succesful, go to main page, otherwise don't.
+  const nav = useNavigate();
+
   const checkUser = () => {
     const usercheck = Accounts.find(user => (user.username === data.username && user.password === data.password));
     if(usercheck) {
       console.log("Login successful");
       props.click();
-      window.location.href = "http://localhost:3000/";
+      //window.location.href = "http://localhost:3000/";
+      nav("/");
     }else {
       console.log("Wrong password or username");
     }
@@ -71,12 +75,12 @@ function LoginRegister(props) {
     };
   };
 
-  if(props.logged === false) //If statement put in place so that when an onload event happens from app, it wont show the content of the page if user is logged in and the page is redirected
-  {
+  /*if(props.logged === false) //If statement put in place so that when an onload event happens from app, it wont show the content of the page if user is logged in and the page is redirected
+  {*/
 
   return (
     <>
-        <section id='LoginForm' className='Form'>
+        <section id='LoginForm' className='Form' onLoad={props.load()}>
         <div id='Login' className='MainElementBackground'>
         <h1 className='MainElementText'>Login</h1>
         <div className='PasswordAndButton'>
@@ -93,7 +97,7 @@ function LoginRegister(props) {
         </section>
     </>
   );
-  }
+  //}
 }
 
 export default LoginRegister;

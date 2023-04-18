@@ -4,11 +4,11 @@ import LoginRegister from './pages/login/login-register';
 import Home from './pages/home/home';
 import Navbar from './components/Navbar/Navbar';
 import Popup from './components/Popup/Popup'
-import {Route, Routes} from 'react-router-dom';
+import {Route, Routes, useNavigate} from 'react-router-dom';
 function App() {
 
   const load = () => {
-    check();
+    //check();
   }
 
   //State for the login status, that is set in  localStorage
@@ -29,16 +29,32 @@ function App() {
   useEffect(() => {
     window.localStorage.setItem('Login_Status', JSON.stringify(checkLogged));
   }, [checkLogged]);
-  
-  function check() { //Check if user is logged and they're on a page, redirect
+
+
+  const nav = useNavigate();
+  useEffect(() => {
     if(checkLogged === true && window.location.href === "http://localhost:3000/login")
     {
-      window.location.href = "http://localhost:3000/";
+      //window.location.href = "http://localhost:3000/";
+      nav("/");
     }
-    if(checkLogged === false && window.location.href === "http://localhost:3000/")
+    if(checkLogged === false && window.location.href !== "http://localhost:3000/login")
     {
-      window.location.href = "http://localhost:3000/login";
+      //window.location.href = "http://localhost:3000/login";
+      nav("/login");
     }
+  })
+  const check = () => { //Check if user is logged and they're on a page, redirect
+    /*if(checkLogged === true && window.location.href === "http://localhost:3000/login")
+    {
+      //window.location.href = "http://localhost:3000/";
+      nav("/");
+    }
+    if(checkLogged === false && window.location.href !== "http://localhost:3000/login")
+    {
+      //window.location.href = "http://localhost:3000/login";
+      nav("/login");
+    }*/
   }
   //Userdetected that is set based on an interval of 1 second. It's based on if the detectUserActivity has been called, which sets the userDetected to true. Otherwise it will remain false
   //userDetected being false makes the other timers go off and if userDetected state is changed to true, they will not run until it changes again to false.
@@ -86,7 +102,7 @@ function App() {
       decreaseNumber(countdownNumber-1);
       if(countdownNumber <= 1)
       {
-        //AutoLogout();
+        AutoLogout();
       }
     }, 1000);
   }
@@ -133,18 +149,18 @@ function App() {
   const [hasBeenWarned, setWarning] = useState(false);
 
   //Clear the timeout and set hasBeenWarned. Popup visibility is dependant on that state.
-  const warningPopup = () => {
+  function warningPopup() {
         setWarning(true);
         decreaseNumber(60); //Always reset the countdown then popup opens
     }
 
   //Clear the popup, set hasBeenWarned back to false and change the states of the timers, which results in useEffect being executed again
-  const clearPopup = () => {
+  function clearPopup() {
       setWarning(false);
   }
 
   //Detection of user activity, only possible if the user has not already been warned and the popup is not on screen
-  const detectUserActivity = () => {
+  function detectUserActivity() {
     if(hasBeenWarned === false)
     {
       setDetected(true);
@@ -154,23 +170,23 @@ function App() {
 
   //Login and out function
   const LogInOut = () => {
-    if(checkLogged === false)
-    {
-      setLogged(true);
-    }
-    else
+    if(checkLogged === true)
     {
       setLogged(false);
+    }
+    else 
+    {
+      setLogged(true);
     }
   }
 
   return (
-    <div tabIndex={0} className="App" onLoad={load}>
+    <div tabIndex={0} className="App" onLoad={load()}>
       <Popup id="WarningPopup" warning={hasBeenWarned} startClick={clearPopup} number={countdownNumber}/>
       <Navbar logged={checkLogged} logout={LogInOut}/>
       <Routes>
-      <Route exact path="/" element={<Home logged={checkLogged} setChanged={setLoggedState} click={LogInOut}/>}/>
-      <Route exact path="/login" element={<LoginRegister logged={checkLogged} setChanged={setLoggedState} click={LogInOut}/>}/>
+      <Route exact path="/" element={<Home logged={checkLogged} setChanged={setLoggedState} load={check}/>}/>
+      <Route exact path="/login" element={<LoginRegister logged={checkLogged} setChanged={setLoggedState} click={LogInOut} load={check}/>}/>
       </Routes>
     </div>
   );

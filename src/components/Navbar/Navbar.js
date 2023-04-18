@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import "./Navbar.css";
+import { useNavigate } from "react-router-dom";
 
 function Navbar(props) {
+    const nav = useNavigate();
     
     const navClick = () => {
         props.logout();
+        nav("/login");
     }
 
-    if(window.location.href !== "http://localhost:3000/login")
+    if(props.logged === true && window.location.href !== "http://localhost:3000/login")
     {
     return(
         <React.Fragment>

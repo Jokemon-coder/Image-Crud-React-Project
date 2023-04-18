@@ -3,10 +3,10 @@ import './home.css';
 
 function Home(props) {
   //If the user login status is true, render the page. This is to fix the page rendering and showing for a second when loading and reloading to the login page
-  if(props.logged === true)
-  {
+  /*if(props.logged === true && window.location.href !== "http://localhost:3000/login")
+  {*/
   return (
-    <div className="Home">
+    <div className="Home" onLoad={props.load()}>
       <main>
         <section id='WelcomeToMain'>
           <div id='WelcomeTextDiv'>
@@ -16,7 +16,7 @@ function Home(props) {
       </main>
     </div>
   );
-  }
+  //}
 }
 
 export default Home;

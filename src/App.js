@@ -6,17 +6,12 @@ import Navbar from './components/Navbar/Navbar';
 import Popup from './components/Popup/Popup'
 import {Route, Routes, useNavigate} from 'react-router-dom';
 function App() {
-
-  const load = () => {
-    //check();
-  }
-
+  
   //State for the login status, that is set in  localStorage
   const[checkLogged, setLogged] = useState(JSON.parse(localStorage.getItem('Login_Status')) ?? false);
 
   const setLoggedState = (bool) => {
     setLogged(bool);
-    check();
   }
 
   //Local storageen Login_Status ja sen arvo true/false useEffectin kanssa. Toinen hakee arvon ja toinen asettaa sen.
@@ -44,18 +39,6 @@ function App() {
       nav("/login");
     }
   })
-  const check = () => { //Check if user is logged and they're on a page, redirect
-    /*if(checkLogged === true && window.location.href === "http://localhost:3000/login")
-    {
-      //window.location.href = "http://localhost:3000/";
-      nav("/");
-    }
-    if(checkLogged === false && window.location.href !== "http://localhost:3000/login")
-    {
-      //window.location.href = "http://localhost:3000/login";
-      nav("/login");
-    }*/
-  }
   //Userdetected that is set based on an interval of 1 second. It's based on if the detectUserActivity has been called, which sets the userDetected to true. Otherwise it will remain false
   //userDetected being false makes the other timers go off and if userDetected state is changed to true, they will not run until it changes again to false.
   const [userDetected, setDetected] = useState(false);
@@ -100,7 +83,7 @@ function App() {
     clearTimeout(logoutTimer.current);
     logoutTime = setTimeout(() => {
       decreaseNumber(countdownNumber-1);
-      if(countdownNumber <= 1)
+      if(countdownNumber <= 0)
       {
         AutoLogout();
       }
@@ -108,7 +91,7 @@ function App() {
   }
   //useEffect setting the timer to true on initial render and calling updateLogout. Its dependency is the logoutTimer and its state
   useEffect(() => {
-    if(window.location.href !== "http://localhost:3000/login" && hasBeenWarned === true)
+    if(/*window.location.href !== "http://localhost:3000/login" &&*/ hasBeenWarned === true)
     {
       updateLogout();
       logoutTimer.current = logoutTime;
@@ -130,7 +113,7 @@ function App() {
 
   useEffect(() => {
     //Don't call updateWarning if the page is login or the popup is already displayed
-    if(((window.location.href !== "http://localhost:3000/login") || (document.getElementById("WarningPopup").style.display !== "none" && hasBeenWarned === false)) && (userDetected === false))
+    if(checkLogged === true/*|| document.getElementById("WarningPopup").style.display !== "none"*/ && hasBeenWarned === false && userDetected === false)
     {
       updateWarning();
       warningTimer.current = warningTime;
@@ -139,11 +122,15 @@ function App() {
     return () => {
       clearTimeout(warningTimer);
     }
-  }, [warningPopup, userDetected/*, timesDetected*/])
+  }, [warningPopup, userDetected])
 
   //Logout function used for the automatic logout, could also be remomed since it's not used anywhere else and it's just setLogged
   const AutoLogout = () => {
     setLogged(false);
+    clearPopup();
+    clearInterval(userDetectionTimer);
+    clearTimeout(logoutTimer);
+    clearTimeout(warningTimer);
   }
 
   const [hasBeenWarned, setWarning] = useState(false);
@@ -169,24 +156,29 @@ function App() {
   }
 
   //Login and out function
-  const LogInOut = () => {
+  function LogInOut() {
     if(checkLogged === true)
     {
       setLogged(false);
+      console.log(checkLogged);
+      clearInterval(userDetectionTimer);
+      clearTimeout(logoutTimer.current);
+      clearTimeout(warningTimer.current);
     }
     else 
     {
       setLogged(true);
+      console.log(checkLogged);
     }
   }
 
   return (
-    <div tabIndex={0} className="App" onLoad={load()}>
-      <Popup id="WarningPopup" warning={hasBeenWarned} startClick={clearPopup} number={countdownNumber}/>
+    <div tabIndex={0} className="App">
+      <Popup id="WarningPopup" logged={checkLogged} warning={hasBeenWarned} startClick={clearPopup} number={countdownNumber}/>
       <Navbar logged={checkLogged} logout={LogInOut}/>
       <Routes>
-      <Route exact path="/" element={<Home logged={checkLogged} setChanged={setLoggedState} load={check}/>}/>
-      <Route exact path="/login" element={<LoginRegister logged={checkLogged} setChanged={setLoggedState} click={LogInOut} load={check}/>}/>
+      <Route exact path="/" element={<Home logged={checkLogged} setChanged={setLoggedState}/>}/>
+      <Route exact path="/login" element={<LoginRegister logged={checkLogged} setChanged={setLoggedState} click={LogInOut}/>}/>
       </Routes>
     </div>
   );

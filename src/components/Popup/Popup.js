@@ -9,7 +9,8 @@ function Popup (props) {
     const mouseOverAndOut = () => {
         setHovering(!hover);
     }
-
+    if(props.logged === true)
+    {
     return(
         <React.Fragment>
             <div id={props.id} className="Popup" style={{display:  props.warning ? "block" : "none"}}>
@@ -22,6 +23,7 @@ function Popup (props) {
             </div>
         </React.Fragment>
     );
+    }
 }
 
 export default Popup;

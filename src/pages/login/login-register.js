@@ -75,12 +75,12 @@ function LoginRegister(props) {
     };
   };
 
-  /*if(props.logged === false) //If statement put in place so that when an onload event happens from app, it wont show the content of the page if user is logged in and the page is redirected
-  {*/
+  if(props.logged === false) //If statement put in place so that when an onload event happens from app, it wont show the content of the page if user is logged in and the page is redirected
+  {
 
   return (
     <>
-        <section id='LoginForm' className='Form' onLoad={props.load()}>
+        <section id='LoginForm' className='Form'>
         <div id='Login' className='MainElementBackground'>
         <h1 className='MainElementText'>Login</h1>
         <div className='PasswordAndButton'>
@@ -97,7 +97,7 @@ function LoginRegister(props) {
         </section>
     </>
   );
-  //}
+  }
 }
 
 export default LoginRegister;

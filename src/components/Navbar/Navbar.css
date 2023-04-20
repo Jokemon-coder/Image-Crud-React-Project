@@ -17,3 +17,43 @@
     color: #f2f3f4;
     cursor: pointer;
 }
+
+#OpenCloseMenu {
+    height: fit-content;
+    width: 40px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+#NavListDesktop {
+    list-style: none;
+    width: auto;
+    height: auto;
+    overflow: hidden;
+}
+
+.NotToggled {
+    display: none;
+}
+
+.Toggled {
+    display: flex;
+}
+
+#NavListMobile {
+    position: relative;
+    flex-direction: column;
+    float: right;
+}
+
+@media screen and (min-width: 768px) {
+    #OpenCloseMenu, #NavListMobile {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #NavListDesktop {
+        display: none;
+    }
+}

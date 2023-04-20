@@ -85,7 +85,7 @@ function App() {
       decreaseNumber(countdownNumber-1);
       if(countdownNumber <= 0)
       {
-        AutoLogout();
+        //AutoLogout();
       }
     }, 1000);
   }

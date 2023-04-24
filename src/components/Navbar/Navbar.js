@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Navbar.css";
 import openLogo from "./images/menu-line.png";
 import closeLogo from "./images/close-line.png"
@@ -18,13 +18,42 @@ function Navbar(props) {
         setLogo(!logo);
     }
 
+    //Var for if window is in mobile or not
+    var isMobile = false;
+
+    //The state of the windowWidth that is tracked
+    const [windowWidth, setWindow] = useState(window.innerWidth);
+
+    //Function to check the window width along with if it is in mobile size. If if it and the logo is false meaning the menu is open, close it.
+    //This to ensure that the menu is not open again the user resizes back down from desktop to mobile size
+    const checkNavbar = () => {
+        setWindow(window.innerWidth);
+        isMobile = window.innerWidth <= 767 ? true : false;
+        if(isMobile === false && logo === false)
+        {
+            OpenCloseMenu();
+        }
+    }
+
+    //Turn on the resize checkNavbar whenever user has opened the menu in mobile mode. This means that the resize is only running when the menu is open and otherwise is not run.
+    //Probably a better and more efficient way to do this, but this is at least better than having it run all the time even when the menu is closed and the window is no longer mobile
+    useEffect(() => {
+        if(logo === false)
+        {
+            window.addEventListener('resize', checkNavbar);
+        }
+        return () => {
+            window.removeEventListener('resize', checkNavbar);
+        }
+    }, [logo])
+
     if(props.logged === true && window.location.href !== "http://localhost:3000/login")
     {
     return(
         <React.Fragment>
             <div id="Navbar" className="MainElementBackground">
-            <img id="OpenCloseMenu" className="NavItem" src={logo ? openLogo : closeLogo} onClick={OpenCloseMenu}/>
-            <ul id="NavListDesktop">
+            <img id="OpenCloseMenu" className="NavItem" src={logo ? openLogo : closeLogo} onClick={OpenCloseMenu} alt={logo ? "Open menu" : "Close menu"}/>
+            <ul id="NavListDesktop" >
             <ListItem content="Logout" click={navClick}/>
             <ListItem content="Example"/>
             </ul>

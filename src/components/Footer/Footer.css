@@ -1,0 +1,21 @@
+#Footer {
+    width: 100%;
+    position: absolute;
+    height: auto;
+    bottom: 0;
+    text-align: center;
+    margin-top: 50px;
+}
+
+#FooterContent {
+    font-size: 30px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+@media screen and (max-width: 767px)
+{
+  #FooterContent {
+    font-size: 25px;
+  }
+}

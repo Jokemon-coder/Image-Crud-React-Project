@@ -4,6 +4,7 @@ import LoginRegister from './pages/login/login-register';
 import Home from './pages/home/home';
 import Navbar from './components/Navbar/Navbar';
 import Popup from './components/Popup/Popup'
+import Footer from './components/Footer/Footer';
 import {Route, Routes, useNavigate} from 'react-router-dom';
 function App() {
   
@@ -62,12 +63,14 @@ function App() {
       window.addEventListener("mousemove", detectUserActivity);
       window.addEventListener("onclick", detectUserActivity);
       window.addEventListener("onscroll", detectUserActivity);
+      window.addEventListener("resize", detectUserActivity);
   
       return () => {
         clearInterval(userDetectionTimer);
         window.removeEventListener("mousemove", detectUserActivity);
         window.removeEventListener("onclick", detectUserActivity);
         window.removeEventListener("onscroll", detectUserActivity);
+        window.removeEventListener("resize", detectUserActivity);
       }
     }
   }, [detectUserActivity])
@@ -107,7 +110,7 @@ function App() {
   const updateWarning = () => {
     clearTimeout(warningTimer.current);
     warningTime = setTimeout(() => {
-      warningPopup();
+      //warningPopup();
     }, 10_000);
   }
 
@@ -180,6 +183,7 @@ function App() {
       <Route exact path="/" element={<Home logged={checkLogged} setChanged={setLoggedState}/>}/>
       <Route exact path="/login" element={<LoginRegister logged={checkLogged} setChanged={setLoggedState} click={LogInOut}/>}/>
       </Routes>
+      <Footer/>
     </div>
   );
 }

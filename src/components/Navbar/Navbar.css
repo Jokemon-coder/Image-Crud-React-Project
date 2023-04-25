@@ -1,10 +1,11 @@
 #Navbar {
     list-style: none;
     width: auto;
-    height: auto;
+    height: fit-content;
     overflow: hidden;
     border: 2px solid;
     padding: 10px;
+    z-index: -1;
 }
 
 .NavItem {
@@ -46,6 +47,7 @@
     float: right;
     background-color: #212121;
     border: 2px solid #0c0c0c;
+    z-index: 1;
 }
 
 @media screen and (min-width: 768px) {

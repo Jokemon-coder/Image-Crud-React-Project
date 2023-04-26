@@ -42,9 +42,9 @@
 }
 
 #NavListMobile {
-    position: relative;
+    position: absolute;
     flex-direction: column;
-    float: right;
+    right: 0;
     background-color: #212121;
     border: 2px solid #0c0c0c;
     z-index: 1;

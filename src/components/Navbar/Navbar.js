@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Navbar.css";
 import openLogo from "./images/menu-line.png";
 import closeLogo from "./images/close-line.png"
-import { useNavigate } from "react-router-dom";
+import { useActionData, useNavigate } from "react-router-dom";
 
 function Navbar(props) {
     const nav = useNavigate();
@@ -24,20 +24,21 @@ function Navbar(props) {
     //Function to check the window width along with if it is in mobile size. If if it and the logo is false meaning the menu is open, close it.
     //This to ensure that the menu is not open again the user resizes back down from desktop to mobile size
     const checkNavbar = () => {
-        isMobile = window.innerWidth <= 767 ? true : false;
-        if(isMobile === false && logo === false)
+        if(logo === false)
         {
-            OpenCloseMenu();
+            isMobile = window.innerWidth <= 767 ? true : false;
+            if(isMobile === false && logo === false)
+            {
+                OpenCloseMenu();
+            }
         }
     }
 
     //Turn on the resize checkNavbar whenever user has opened the menu in mobile mode. This means that the resize is only running when the menu is open and otherwise is not run.
     //Probably a better and more efficient way to do this, but this is at least better than having it run all the time even when the menu is closed and the window is no longer mobile
     useEffect(() => {
-        if(logo === false)
-        {
             window.addEventListener('resize', checkNavbar);
-        }
+
         return () => {
             window.removeEventListener('resize', checkNavbar);
         }

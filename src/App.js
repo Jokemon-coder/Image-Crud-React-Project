@@ -176,7 +176,7 @@ function App() {
       <Popup id="WarningPopup" logged={checkLogged} warning={hasBeenWarned} startClick={clearPopup} number={countdownNumber}/>
       <Navbar logged={checkLogged} logout={LogInOut} />
       <Routes>
-      <Route exact path="/React-Project-2/home" element={<Home logged={checkLogged} setChanged={setLoggedState} />}/>
+      <Route exact path="/React-Project-2/" element={<Home logged={checkLogged} setChanged={setLoggedState} />}/>
       <Route exact path="/React-Project-2/login" element={<LoginRegister logged={checkLogged} setChanged={setLoggedState} click={LogInOut}/>}/>
       </Routes>
       <Footer/>

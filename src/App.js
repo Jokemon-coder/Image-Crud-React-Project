@@ -29,13 +29,13 @@ function App() {
   //Navigation to the pages
   const nav = useNavigate();
   useEffect(() => {
-    if(checkLogged === true && window.location.href === "http://localhost:3000/login")
+    if(checkLogged === true && window.location.href === "http://localhost:3000/React-Project-2/login")
     {
-      nav("/home");
+      nav("/React-Project-2/home");
     }
-    if(checkLogged === false && window.location.href !== "http://localhost:3000/login")
+    if(checkLogged === false && window.location.href !== "http://localhost:3000/React-Project-2/login")
     {
-      nav("/login");
+      nav("/React-Project-2/login");
     }
   })
   //Userdetected that is set based on an interval of 1 second. It's based on if the detectUserActivity has been called, which sets the userDetected to true. Otherwise it will remain false
@@ -56,7 +56,7 @@ function App() {
 
   //useEffect to set detection timer everytime detectUserActivity is called. Also creates the user detection event listeners
   useEffect(() => {
-    if(window.location.href !== "http://localhost:3000/login"){
+    if(window.location.href !== "http://localhost:3000/React-Project-2/login"){
       setDetection();
       window.addEventListener("mousemove", detectUserActivity);
       window.addEventListener("onclick", detectUserActivity);
@@ -92,7 +92,7 @@ function App() {
   }
   //useEffect setting the timer to true on initial render and calling updateLogout. Its dependency is the logoutTimer and its state
   useEffect(() => {
-    if(/*window.location.href !== "http://localhost:3000/login" &&*/ hasBeenWarned === true)
+    if(hasBeenWarned === true)
     {
       updateLogout();
       logoutTimer.current = logoutTime;
@@ -176,8 +176,8 @@ function App() {
       <Popup id="WarningPopup" logged={checkLogged} warning={hasBeenWarned} startClick={clearPopup} number={countdownNumber}/>
       <Navbar logged={checkLogged} logout={LogInOut} />
       <Routes>
-      <Route exact path="/home" element={<Home logged={checkLogged} setChanged={setLoggedState} />}/>
-      <Route exact path="/login" element={<LoginRegister logged={checkLogged} setChanged={setLoggedState} click={LogInOut}/>}/>
+      <Route exact path="/React-Project-2/home" element={<Home logged={checkLogged} setChanged={setLoggedState} />}/>
+      <Route exact path="/React-Project-2/login" element={<LoginRegister logged={checkLogged} setChanged={setLoggedState} click={LogInOut}/>}/>
       </Routes>
       <Footer/>
     </div>

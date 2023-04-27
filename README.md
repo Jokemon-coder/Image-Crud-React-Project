@@ -1,1 +1,33 @@
+# An image CRUD application thing
 
+## Introduction
+
+This is my second proper ReactJS project. Already without it being finished, I've already learned more and become more accustomed to ReactJS compared to when I started and finished my first project. The purpose for this project is to have an application that a user can log or register in and add or remove images in the forms of posts, similar to social media platforms. This is to be accomplished using Firebase, which I am completely new and excited to learn more about it. Overall technologies used and to be used are:
+
+- ReactJS
+- HTML/CSS
+- JavaSript
+- NodeJS
+- Firebase
+
+A demo of this, which does not contain any of the CRUD aspects or connections to Firebase, will be published on Github Pages because it still showcases what I did in plain ReactJS. 
+
+## Functionality and features
+
+As of now, none of the Node and Firebase related features are in the project, but what I want to be included are:
+
+- The ability for a user to login or register using username/email and password
+- The ability to add, delete and edit image posts
+- The ability to perhaps find and look at other users and their posts(?)
+
+Functionality that exists on the plain demo and will be expanded on in the finished project are:
+
+- A login with a predetermined username and password (User, 1234)
+- Automatic logout features, which kick in after 10 seconds of inactivity with an additional 60 seconds warning in a popup
+- Responsive navigation menu
+
+(Images of the final project and examples here or it's own section)
+
+## Known bugs
+
+(Enter here when they're discovered)

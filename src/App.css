@@ -21,15 +21,13 @@
   padding-bottom: 64px;
 }
 
+/*Responsive padding that works with the footer*/
 @media screen and (max-width: 767px)
 {
   .App {
     padding-bottom: 58px;
   }
 }
-
-
-
 
 html {
   width: 100%;

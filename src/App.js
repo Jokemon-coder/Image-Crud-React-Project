@@ -15,10 +15,9 @@ function App() {
     setLogged(bool);
   }
 
-  //Local storageen Login_Status ja sen arvo true/false useEffectin kanssa. Toinen hakee arvon ja toinen asettaa sen.
+  //Get and set Login_Status in localStorage with useEffects.
   useEffect(() => { 
     const data = window.localStorage.getItem('Login_Status');
-    console.log('data', data);
     if(data !== null) setLogged(JSON.parse(data));
   }, []);
 
@@ -27,16 +26,15 @@ function App() {
   }, [checkLogged]);
 
 
+  //Navigation to the pages
   const nav = useNavigate();
   useEffect(() => {
     if(checkLogged === true && window.location.href === "http://localhost:3000/login")
     {
-      //window.location.href = "http://localhost:3000/";
       nav("/");
     }
     if(checkLogged === false && window.location.href !== "http://localhost:3000/login")
     {
-      //window.location.href = "http://localhost:3000/login";
       nav("/login");
     }
   })
@@ -88,7 +86,7 @@ function App() {
       decreaseNumber(countdownNumber-1);
       if(countdownNumber <= 0)
       {
-        //AutoLogout();
+        AutoLogout();
       }
     }, 1000);
   }
@@ -110,13 +108,13 @@ function App() {
   const updateWarning = () => {
     clearTimeout(warningTimer.current);
     warningTime = setTimeout(() => {
-      //warningPopup();
+      warningPopup();
     }, 10_000);
   }
 
   useEffect(() => {
     //Don't call updateWarning if the page is login or the popup is already displayed
-    if(checkLogged === true/*|| document.getElementById("WarningPopup").style.display !== "none"*/ && hasBeenWarned === false && userDetected === false)
+    if(checkLogged === true && hasBeenWarned === false && userDetected === false)
     {
       updateWarning();
       warningTimer.current = warningTime;
@@ -163,7 +161,6 @@ function App() {
     if(checkLogged === true)
     {
       setLogged(false);
-      console.log(checkLogged);
       clearInterval(userDetectionTimer);
       clearTimeout(logoutTimer.current);
       clearTimeout(warningTimer.current);
@@ -171,7 +168,6 @@ function App() {
     else 
     {
       setLogged(true);
-      console.log(checkLogged);
     }
   }
 

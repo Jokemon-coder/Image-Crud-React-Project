@@ -32,7 +32,6 @@ function LoginRegister(props) {
     if(usercheck) {
       console.log("Login successful");
       props.click();
-      //window.location.href = "http://localhost:3000/";
       nav("/");
     }else {
       console.log("Wrong password or username");
@@ -43,23 +42,6 @@ function LoginRegister(props) {
   const mouseOverAndOut = () => {
     setHovering(!isHovering);
   };
-
-  var elements = document.querySelectorAll("UserPass");
-
-  for(let i = 0; i > elements.length; i++)
-  {
-    elements[i].onkeydown = (e) => {
-      console.log(e);
-    }
-  }
-
-  const nextElement = (e) => {
-    if(e.key === "Enter")
-    {
-      console.log(e);
-    }
-  }
-
 
   //Handle click on password eye icon and change accordingly.
   const showHidePassword = () => {

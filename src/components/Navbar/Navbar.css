@@ -3,7 +3,6 @@
     width: auto;
     height: fit-content;
     overflow: hidden;
-    border: 2px solid;
     padding: 10px;
     z-index: -1;
 }
@@ -45,6 +44,8 @@
     position: absolute;
     flex-direction: column;
     right: 0;
+    margin-top: 5px;
+    margin-right: 5px;
     background-color: #212121;
     border: 2px solid #0c0c0c;
     z-index: 1;

@@ -31,13 +31,13 @@ function App() {
   useEffect(() => {
     if(checkLogged === true && window.location.href === "http://localhost:3000/React-Project-2/login")
     {
-      nav("/React-Project-2/");
+      nav("/");
     }
     if(checkLogged === false && window.location.href !== "http://localhost:3000/React-Project-2/login")
     {
-      nav("/React-Project-2/login");
+      nav("/login");
     }
-  })
+  }, [])
   //Userdetected that is set based on an interval of 1 second. It's based on if the detectUserActivity has been called, which sets the userDetected to true. Otherwise it will remain false
   //userDetected being false makes the other timers go off and if userDetected state is changed to true, they will not run until it changes again to false.
   const [userDetected, setDetected] = useState(false);
@@ -176,8 +176,8 @@ function App() {
       <Popup id="WarningPopup" logged={checkLogged} warning={hasBeenWarned} startClick={clearPopup} number={countdownNumber}/>
       <Navbar logged={checkLogged} logout={LogInOut} />
       <Routes>
-      <Route exact path="/React-Project-2/" element={<Home logged={checkLogged} setChanged={setLoggedState} />}/>
-      <Route exact path="/React-Project-2/login" element={<LoginRegister logged={checkLogged} setChanged={setLoggedState} click={LogInOut}/>}/>
+      <Route exact path="/" element={<Home logged={checkLogged} setChanged={setLoggedState} />}/>
+      <Route exact path="/login" element={<LoginRegister logged={checkLogged} setChanged={setLoggedState} click={LogInOut}/>}/>
       </Routes>
       <Footer/>
     </div>

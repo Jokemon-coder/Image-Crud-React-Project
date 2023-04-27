@@ -32,7 +32,7 @@ function LoginRegister(props) {
     if(usercheck) {
       console.log("Login successful");
       props.click();
-      nav("/React-Project-2/");
+      nav("/");
     }else {
       console.log("Wrong password or username");
     }

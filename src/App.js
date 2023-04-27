@@ -31,7 +31,7 @@ function App() {
   useEffect(() => {
     if(checkLogged === true && window.location.href === "http://localhost:3000/login")
     {
-      nav("/");
+      nav("/home");
     }
     if(checkLogged === false && window.location.href !== "http://localhost:3000/login")
     {
@@ -176,7 +176,7 @@ function App() {
       <Popup id="WarningPopup" logged={checkLogged} warning={hasBeenWarned} startClick={clearPopup} number={countdownNumber}/>
       <Navbar logged={checkLogged} logout={LogInOut} />
       <Routes>
-      <Route exact path="/" element={<Home logged={checkLogged} setChanged={setLoggedState} />}/>
+      <Route exact path="/home" element={<Home logged={checkLogged} setChanged={setLoggedState} />}/>
       <Route exact path="/login" element={<LoginRegister logged={checkLogged} setChanged={setLoggedState} click={LogInOut}/>}/>
       </Routes>
       <Footer/>

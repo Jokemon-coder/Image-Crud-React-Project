@@ -31,7 +31,7 @@ function App() {
   useEffect(() => {
     if(checkLogged === true && window.location.href === "http://localhost:3000/React-Project-2/login")
     {
-      nav("/React-Project-2/home");
+      nav("/React-Project-2/");
     }
     if(checkLogged === false && window.location.href !== "http://localhost:3000/React-Project-2/login")
     {

@@ -6,7 +6,6 @@ import Navbar from './components/Navbar/Navbar';
 import Popup from './components/Popup/Popup'
 import Footer from './components/Footer/Footer';
 import {Route, Routes, useNavigate, Navigate} from 'react-router-dom';
-import { element } from 'prop-types';
 function App() {
   
   //State for the login status, that is set in  localStorage
@@ -33,7 +32,7 @@ function App() {
   useEffect(() => {
     if(checkLogged === true && url === "http://localhost:3000/React-Project-2/#/login")
     {
-      nav("/");
+      nav("/home");
     }
     if(checkLogged === false && url !== "http://localhost:3000/React-Project-2/#/login")
     {
@@ -181,9 +180,9 @@ function App() {
       <Popup id="WarningPopup" logged={checkLogged} warning={hasBeenWarned} startClick={clearPopup} number={Math.floor(countdownNumber)}/>
       <Navbar logged={checkLogged} logout={LogInOut} />
       <Routes>
-      <Route exact path="/" element={<Home logged={checkLogged} setChanged={setLoggedState} />}/>
+      <Route exact path="/home" element={<Home logged={checkLogged} setChanged={setLoggedState} />}/>
       <Route exact path="/login" element={<LoginRegister logged={checkLogged} setChanged={setLoggedState} click={LogInOut}/>}/>
-      <Route exact path="*" element={<Navigate to="/"/>}/>
+      <Route exact path="*" element={<Navigate to="/home"/>}/>
       </Routes>
       <Footer/>
     </div>

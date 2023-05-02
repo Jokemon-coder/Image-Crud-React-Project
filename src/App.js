@@ -28,6 +28,7 @@ function App() {
 
 
   //Navigation to the pages
+  const url = window.location.href;
   const nav = useNavigate();
   useEffect(() => {
     if(checkLogged === true && window.location.href === "http://localhost:3000/React-Project-2/#/login")
@@ -38,7 +39,7 @@ function App() {
     {
       nav("/login");
     }
-  })
+  }, [url])
   //Userdetected that is set based on an interval of 1 second. It's based on if the detectUserActivity has been called, which sets the userDetected to true. Otherwise it will remain false
   //userDetected being false makes the other timers go off and if userDetected state is changed to true, they will not run until it changes again to false.
   const [userDetected, setDetected] = useState(false);
@@ -182,7 +183,7 @@ function App() {
       <Routes>
       <Route exact path="/" element={<Home logged={checkLogged} setChanged={setLoggedState} />}/>
       <Route exact path="/login" element={<LoginRegister logged={checkLogged} setChanged={setLoggedState} click={LogInOut}/>}/>
-      <Route path="*" element={<Navigate to="/"/>}/>
+      <Route exact path="*" element={<Navigate to="/"/>}/>
       </Routes>
       <Footer/>
     </div>

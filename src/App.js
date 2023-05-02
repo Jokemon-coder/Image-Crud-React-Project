@@ -27,15 +27,15 @@ function App() {
   }, [checkLogged]);
 
 
-  //Navigation to the pages
+  //Navigation to the pages based on url and if user is logged in
   const url = window.location.href;
   const nav = useNavigate();
   useEffect(() => {
-    if(checkLogged === true && window.location.href === "http://localhost:3000/React-Project-2/#/login")
+    if(checkLogged === true && url === "http://localhost:3000/React-Project-2/#/login")
     {
       nav("/");
     }
-    if(checkLogged === false && window.location.href !== "http://localhost:3000/React-Project-2/#/login")
+    if(checkLogged === false && url !== "http://localhost:3000/React-Project-2/#/login")
     {
       nav("/login");
     }

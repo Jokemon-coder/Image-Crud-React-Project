@@ -6,6 +6,7 @@ import Navbar from './components/Navbar/Navbar';
 import Popup from './components/Popup/Popup'
 import Footer from './components/Footer/Footer';
 import {Route, Routes, useNavigate, Navigate} from 'react-router-dom';
+import { element } from 'prop-types';
 function App() {
   
   //State for the login status, that is set in  localStorage
@@ -181,7 +182,7 @@ function App() {
       <Routes>
       <Route exact path="/" element={<Home logged={checkLogged} setChanged={setLoggedState} />}/>
       <Route exact path="/login" element={<LoginRegister logged={checkLogged} setChanged={setLoggedState} click={LogInOut}/>}/>
-      <Route path="*" element={<Navigate to={"/"}/>}/>
+      <Route path="*" element={<Navigate to="/"/>}/>
       </Routes>
       <Footer/>
     </div>

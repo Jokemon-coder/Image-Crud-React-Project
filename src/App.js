@@ -5,7 +5,7 @@ import Home from './pages/home/home';
 import Navbar from './components/Navbar/Navbar';
 import Popup from './components/Popup/Popup'
 import Footer from './components/Footer/Footer';
-import {Route, Routes, useNavigate, Navigate, redirect} from 'react-router-dom';
+import {Route, Routes, useNavigate, Navigate} from 'react-router-dom';
 function App() {
   
   //State for the login status, that is set in  localStorage

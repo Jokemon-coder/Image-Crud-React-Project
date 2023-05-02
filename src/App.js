@@ -5,7 +5,7 @@ import Home from './pages/home/home';
 import Navbar from './components/Navbar/Navbar';
 import Popup from './components/Popup/Popup'
 import Footer from './components/Footer/Footer';
-import {Route, Routes, useNavigate} from 'react-router-dom';
+import {Route, Routes, useNavigate, Navigate, redirect} from 'react-router-dom';
 function App() {
   
   //State for the login status, that is set in  localStorage
@@ -29,13 +29,13 @@ function App() {
   //Navigation to the pages
   const nav = useNavigate();
   useEffect(() => {
-    if(checkLogged === true && window.location.href === "http://localhost:3000/React-Project-2/login")
+    if(checkLogged === true && window.location.href === "http://localhost:3000/React-Project-2/#/login")
     {
-      nav("/React-Project-2/");
+      nav("/");
     }
-    if(checkLogged === false && window.location.href !== "http://localhost:3000/React-Project-2/login")
+    if(checkLogged === false && window.location.href !== "http://localhost:3000/React-Project-2/#/login")
     {
-      nav("/React-Project-2/login");
+      nav("/login");
     }
   })
   //Userdetected that is set based on an interval of 1 second. It's based on if the detectUserActivity has been called, which sets the userDetected to true. Otherwise it will remain false
@@ -56,7 +56,7 @@ function App() {
 
   //useEffect to set detection timer everytime detectUserActivity is called. Also creates the user detection event listeners
   useEffect(() => {
-    if(window.location.href !== "http://localhost:3000/React-Project-2/login"){
+    if(window.location.href !== "http://localhost:3000/React-Project-2/#/login"){
       setDetection();
       window.addEventListener("mousemove", detectUserActivity);
       window.addEventListener("onclick", detectUserActivity);
@@ -76,30 +76,33 @@ function App() {
   //Ref for the useEffect to keep track of and the countdown number for automatic logout
   const logoutTimer = useRef();
   var logoutTime;
+
+  const start = new Date().getTime();
   const [countdownNumber, decreaseNumber] = useState();
 
   //Update the logout timer, it's a timeout instead of an interval because the previous design was a timeout and attempting to convert to an interval broke the entire system.
-  //Now it just continuously sets a 1 second timeout on repeat until the countdownNumber is 1 or less. 1 instead of 0 because it would only detect 0 after another render making it go to -1.
+   //countdownNumber is set with a math equation in milliseconds based on the current time and time attributed to start. This actually makes it so that interval remains at the rate it's supposed to
+  //The way the interval is now setup allows for the interval to actually run every 100 milliseconds, even if the tab it is in is inactive
   const updateLogout = () => {
-    clearTimeout(logoutTimer.current);
-    logoutTime = setTimeout(() => {
-      decreaseNumber(countdownNumber-1);
-      if(countdownNumber <= 0)
+    clearInterval(logoutTimer.current);
+    logoutTime = setInterval(() => {
+      decreaseNumber((countdownNumber*1000 - (new Date().getTime() - start)) / 1000)
+      if(Math.floor(countdownNumber) <= 0)
       {
-        AutoLogout();
+        AutoLogout(); 
       }
-    }, 1000);
+    }, 100);
   }
   //useEffect setting the timer to true on initial render and calling updateLogout. Its dependency is the logoutTimer and its state
   useEffect(() => {
-    if(hasBeenWarned === true)
+    if(checkLogged === true && hasBeenWarned === true && userDetected === false)
     {
       updateLogout();
       logoutTimer.current = logoutTime;
     }
 
     return () => {
-      clearTimeout(logoutTimer);
+      clearInterval(logoutTimer.current);
     }
   }, [clearPopup, userDetected])
 
@@ -121,7 +124,7 @@ function App() {
     }
 
     return () => {
-      clearTimeout(warningTimer);
+      clearTimeout(warningTimer.current);
     }
   }, [warningPopup, userDetected])
 
@@ -130,8 +133,8 @@ function App() {
     setLogged(false);
     clearPopup();
     clearInterval(userDetectionTimer);
-    clearTimeout(logoutTimer);
-    clearTimeout(warningTimer);
+    clearInterval(logoutTimer.current);
+    clearTimeout(warningTimer.current);
   }
 
   const [hasBeenWarned, setWarning] = useState(false);
@@ -173,11 +176,12 @@ function App() {
 
   return (
     <div tabIndex={0} className="App">
-      <Popup id="WarningPopup" logged={checkLogged} warning={hasBeenWarned} startClick={clearPopup} number={countdownNumber}/>
+      <Popup id="WarningPopup" logged={checkLogged} warning={hasBeenWarned} startClick={clearPopup} number={Math.floor(countdownNumber)}/>
       <Navbar logged={checkLogged} logout={LogInOut} />
       <Routes>
-      <Route exact path="/React-Project-2/" element={<Home logged={checkLogged} setChanged={setLoggedState} />}/>
-      <Route exact path="/React-Project-2/login" element={<LoginRegister logged={checkLogged} setChanged={setLoggedState} click={LogInOut}/>}/>
+      <Route exact path="/" element={<Home logged={checkLogged} setChanged={setLoggedState} />}/>
+      <Route exact path="/login" element={<LoginRegister logged={checkLogged} setChanged={setLoggedState} click={LogInOut}/>}/>
+      <Route path="*" element={<Navigate to={"/"}/>}/>
       </Routes>
       <Footer/>
     </div>

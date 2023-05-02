@@ -50,7 +50,7 @@ function Navbar(props) {
         setLogo(true);
     }, [props.logged])
 
-    if(props.logged === true && window.location.href !== "http://localhost:3000/React-Project-2/#/login")
+    if(props.logged === true && window.location.href !== "https://jokemon-coder.github.io/React-Project-2/#/login")
     {
     return(
         <React.Fragment>

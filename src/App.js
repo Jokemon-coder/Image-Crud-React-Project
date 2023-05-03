@@ -30,11 +30,11 @@ function App() {
   const url = window.location.href;
   const nav = useNavigate();
   useEffect(() => {
-    if(checkLogged === true && url === "https://jokemon-coder.github.io/React-Project-2/#/login")
+    if(checkLogged === true && url === "https://jokemon-coder.github.io/Image-Crud-React-Project/#/login")
     {
       nav("/");
     }
-    if(checkLogged === false && url !== "https://jokemon-coder.github.io/React-Project-2/#/login")
+    if(checkLogged === false && url !== "https://jokemon-coder.github.io/Image-Crud-React-Project/#/login")
     {
       nav("/login");
     }
@@ -57,7 +57,7 @@ function App() {
 
   //useEffect to set detection timer everytime detectUserActivity is called. Also creates the user detection event listeners
   useEffect(() => {
-    if(window.location.href !== "https://jokemon-coder.github.io/React-Project-2/#/login"){
+    if(window.location.href !== "https://jokemon-coder.github.io/Image-Crud-React-Project/#/login"){
       setDetection();
       window.addEventListener("mousemove", detectUserActivity);
       window.addEventListener("onclick", detectUserActivity);

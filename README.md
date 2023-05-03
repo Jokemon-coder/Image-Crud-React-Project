@@ -6,4 +6,4 @@ This is a demo for my project that I am working on, more details can be found in
 
 You can visit it here and the predetermined username and password are "User" and "1234".
 
-To the demo: https://jokemon-coder.github.io/React-Project-2/
+To the demo: https://jokemon-coder.github.io/Image-Crud-React-Project/

@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/React-Project-2/static/css/main.af1b2855.css",
-    "main.js": "/React-Project-2/static/js/main.75dbdc80.js",
-    "static/js/787.c97b5512.chunk.js": "/React-Project-2/static/js/787.c97b5512.chunk.js",
-    "index.html": "/React-Project-2/index.html",
-    "main.af1b2855.css.map": "/React-Project-2/static/css/main.af1b2855.css.map",
-    "main.75dbdc80.js.map": "/React-Project-2/static/js/main.75dbdc80.js.map",
-    "787.c97b5512.chunk.js.map": "/React-Project-2/static/js/787.c97b5512.chunk.js.map"
+    "main.css": "/Image-Crud-React-Project/static/css/main.af1b2855.css",
+    "main.js": "/Image-Crud-React-Project/static/js/main.73c3ca5b.js",
+    "static/js/787.c97b5512.chunk.js": "/Image-Crud-React-Project/static/js/787.c97b5512.chunk.js",
+    "index.html": "/Image-Crud-React-Project/index.html",
+    "main.af1b2855.css.map": "/Image-Crud-React-Project/static/css/main.af1b2855.css.map",
+    "main.73c3ca5b.js.map": "/Image-Crud-React-Project/static/js/main.73c3ca5b.js.map",
+    "787.c97b5512.chunk.js.map": "/Image-Crud-React-Project/static/js/787.c97b5512.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.af1b2855.css",
-    "static/js/main.75dbdc80.js"
+    "static/js/main.73c3ca5b.js"
   ]
 }

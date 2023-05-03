@@ -10,7 +10,7 @@ This is my second proper ReactJS project. Already without it being finished, I'v
 - NodeJS
 - Firebase
 
-A demo of this, which does not contain any of the CRUD aspects or connections to Firebase, will be published on Github Pages because it still showcases what I did in plain ReactJS. 
+A demo of this, which does not contain any of the CRUD aspects or connections to Firebase, will be published on Github Pages because it still showcases what I did in plain ReactJS. You can view it in the OnlyLogin-Branch of this repository. 
 
 ## Functionality and features
 

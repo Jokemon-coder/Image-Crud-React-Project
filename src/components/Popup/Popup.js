@@ -9,7 +9,7 @@ function Popup (props) {
     const mouseOverAndOut = () => {
         setHovering(!hover);
     }
-    if(props.logged === true)
+    if(props.authenticate.currentUser !== null)
     {
     return(
         <React.Fragment>

@@ -1,0 +1,13 @@
+#userInput {
+    margin: 0 auto;
+    width: 60%;
+    margin-top: 50px;
+    text-align: center;
+    padding: 10px;
+}
+
+#input {
+    width: 80%;
+    height: 20px;
+    margin: 5px
+}

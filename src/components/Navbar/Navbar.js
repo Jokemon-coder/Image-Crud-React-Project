@@ -8,9 +8,13 @@ function Navbar(props) {
     
     //For navigation menu logout button
     const nav = useNavigate();
-    const navClick = () => {
-        props.logout();
-        nav("/login");
+    const navClick = (link) => {
+        nav(link);
+    }
+
+    const logoutClick = () => {
+        props.authenticate.signOut();
+        props.setLogged(false);
     }
 
     //State for the mobile navigation menu button and opening/closing it function
@@ -50,24 +54,35 @@ function Navbar(props) {
         setLogo(true);
     }, [props.logged])
 
-    if(props.logged === true && window.location.href !== "https://jokemon-coder.github.io/Image-Crud-React-Project/#/login")
+    const [userNullOrNot, setUser] = useState();
+
+    useEffect(() => {
+        props.authenticate.onAuthStateChanged((user) => {
+        if(user)
+        {
+            setUser(user);
+        }
+    })
+    })
+
+    if(userNullOrNot !== null && window.location.href !== "http://localhost:3000/#/login")
     {
     return(
         <React.Fragment>
             <div id="Navbar" className="MainElementBackground">
             <img id="OpenCloseMenu" className="NavItem" src={logo ? openLogo : closeLogo} onClick={OpenCloseMenu} alt={logo ? "Open menu" : "Close menu"}/>
             <ul id="NavListDesktop" >
-            <ListItem content="Logout" click={navClick}/>
-            <ListItem content="Example"/>
-            <ListItem content="Example"/>
-            <ListItem content="Example"/>
+            <ListItem content="Logout" click={logoutClick}/>
+            <ListItem content="Posts" click={() => {navClick("posts")}}/>
+            <ListItem content="Add" click={() => {navClick("add")}}/>
+            <ListItem content="Home" click={() => {navClick("/")}}/>
             </ul>
             </div>
             <ul id="NavListMobile" className={logo ? "NotToggled" : "Toggled"}>
-            <ListItem content="Example"/>
-            <ListItem content="Example"/>
-            <ListItem content="Example"/>
-            <ListItem content="Logout" click={navClick}/>
+            <ListItem content="Home" click={() => {navClick("/")}}/>
+            <ListItem content="Add" click={() => {navClick("add")}}/>
+            <ListItem content="Posts" click={() => {navClick("posts")}}/>
+            <ListItem content="Logout" click={logoutClick}/>
             </ul>
         </React.Fragment>
     );

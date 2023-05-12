@@ -2,20 +2,23 @@ import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import LoginRegister from './pages/login/login-register';
 import Home from './pages/home/home';
+import AddPost from './pages/addpost/add-post';
+import ViewPosts from './pages/viewpost/view-post';
 import Navbar from './components/Navbar/Navbar';
 import Popup from './components/Popup/Popup'
 import Footer from './components/Footer/Footer';
 import {Route, Routes, useNavigate, Navigate} from 'react-router-dom';
+import { auth } from './firebase/firebaseconfig';
 function App() {
   
-  //State for the login status, that is set in  localStorage
-  const[checkLogged, setLogged] = useState(JSON.parse(localStorage.getItem('Login_Status')) ?? false);
+  //State for the login status, was used for localStorage before Firebase. Now is used to keep track of if user is logged for other operations.
+  const[checkLogged, setLogged] = useState();
 
   const setLoggedState = (bool) => {
     setLogged(bool);
   }
 
-  //Get and set Login_Status in localStorage with useEffects.
+  /*//Get and set Login_Status in localStorage with useEffects.
   useEffect(() => { 
     const data = window.localStorage.getItem('Login_Status');
     if(data !== null) setLogged(JSON.parse(data));
@@ -23,22 +26,42 @@ function App() {
 
   useEffect(() => {
     window.localStorage.setItem('Login_Status', JSON.stringify(checkLogged));
-  }, [checkLogged]);
+  }, [checkLogged]);*/
 
 
   //Navigation to the pages based on url and if user is logged in
   const url = window.location.href;
   const nav = useNavigate();
   useEffect(() => {
-    if(checkLogged === true && url === "https://jokemon-coder.github.io/Image-Crud-React-Project/#/login")
+    auth.onAuthStateChanged((user) => {
+    if(user){
+    if(url === "http://localhost:3000/#/login")
     {
       nav("/");
+      setLoggedState(true);
     }
-    if(checkLogged === false && url !== "https://jokemon-coder.github.io/Image-Crud-React-Project/#/login")
+    }
+    else
+    if(url !== "http://localhost:3000/#/login")
     {
       nav("/login");
+      setLoggedState(false);
+    }}
+    )
+
+    /*if(auth.currentUser !== null && url === "http://localhost:3000/#/login")
+    {
+      console.log(auth.currentUser);
+      nav("/");
+      setLoggedState(true);
     }
-  }, [<Route/>])
+    if(auth.currentUser === null && url !== "http://localhost:3000/#/login")
+    {
+      console.log(auth.currentUser);
+      nav("/login");
+      setLoggedState(false);
+    }*/
+  }/*, [<Route/>]*/)
   //Userdetected that is set based on an interval of 1 second. It's based on if the detectUserActivity has been called, which sets the userDetected to true. Otherwise it will remain false
   //userDetected being false makes the other timers go off and if userDetected state is changed to true, they will not run until it changes again to false.
   const [userDetected, setDetected] = useState(false);
@@ -57,7 +80,7 @@ function App() {
 
   //useEffect to set detection timer everytime detectUserActivity is called. Also creates the user detection event listeners
   useEffect(() => {
-    if(window.location.href !== "https://jokemon-coder.github.io/Image-Crud-React-Project/#/login"){
+    if(window.location.href !== "http://localhost:3000/#/login"){
       setDetection();
       window.addEventListener("mousemove", detectUserActivity);
       window.addEventListener("onclick", detectUserActivity);
@@ -87,16 +110,16 @@ function App() {
   const updateLogout = () => {
     clearInterval(logoutTimer.current);
     logoutTime = setInterval(() => {
-      decreaseNumber((countdownNumber*1000 - (new Date().getTime() - start)) / 1000)
+      /*decreaseNumber((countdownNumber*1000 - (new Date().getTime() - start)) / 1000)
       if(Math.floor(countdownNumber) <= 0)
       {
         AutoLogout(); 
-      }
+      }*/
     }, 100);
   }
   //useEffect setting the timer to true on initial render and calling updateLogout. Its dependency is the logoutTimer and its state
   useEffect(() => {
-    if(checkLogged === true && hasBeenWarned === true && userDetected === false)
+    if(auth.currentUser !== null && hasBeenWarned === true && userDetected === false)
     {
       updateLogout();
       logoutTimer.current = logoutTime;
@@ -112,13 +135,13 @@ function App() {
   const updateWarning = () => {
     clearTimeout(warningTimer.current);
     warningTime = setTimeout(() => {
-      warningPopup();
+      //warningPopup();
     }, 10_000);
   }
 
   useEffect(() => {
     //Don't call updateWarning if the page is login or the popup is already displayed
-    if(checkLogged === true && hasBeenWarned === false && userDetected === false)
+    if(auth.currentUser !== null && hasBeenWarned === false && userDetected === false)
     {
       updateWarning();
       warningTimer.current = warningTime;
@@ -131,7 +154,8 @@ function App() {
 
   //Logout function used for the automatic logout, could also be remomed since it's not used anywhere else and it's just setLogged
   const AutoLogout = () => {
-    setLogged(false);
+    //setLogged(false);
+    auth.signOut();
     clearPopup();
     clearInterval(userDetectionTimer);
     clearInterval(logoutTimer.current);
@@ -161,27 +185,30 @@ function App() {
   }
 
   //Login and out function
-  function LogInOut() {
-    if(checkLogged === true)
+  /*function LogInOut() {
+    if(auth.currentUser !== null)
     {
-      setLogged(false);
+      //setLogged(false);
+      auth.signOut();
       clearInterval(userDetectionTimer);
       clearTimeout(logoutTimer.current);
       clearTimeout(warningTimer.current);
     }
-    else 
+    /*else 
     {
       setLogged(true);
     }
-  }
+  }*/
 
   return (
     <div tabIndex={0} className="App">
-      <Popup id="WarningPopup" logged={checkLogged} warning={hasBeenWarned} startClick={clearPopup} number={Math.floor(countdownNumber)}/>
-      <Navbar logged={checkLogged} logout={LogInOut} />
+      <Popup id="WarningPopup" /*logged={checkLogged}*/ authenticate={auth} warning={hasBeenWarned} startClick={clearPopup} number={Math.floor(countdownNumber)}/>
+      <Navbar authenticate={auth} logged={checkLogged} setLogged={setLoggedState} />
       <Routes>
-      <Route exact path="/" element={<Home logged={checkLogged} setChanged={setLoggedState} />}/>
-      <Route exact path="/login" element={<LoginRegister logged={checkLogged} setChanged={setLoggedState} click={LogInOut}/>}/>
+      <Route exact path="/" element={<Home authenticate={auth} /*logged={checkLogged} setChanged={setLoggedState}*/ />}/>
+      <Route exact path="/login" element={<LoginRegister authenticate={auth}  /*logged={checkLogged} setChanged={setLoggedState} click={LogInOut}*//>}/>
+      <Route exact path="/add" element={<AddPost authenticate={auth}/>}/>
+      <Route exact path="/posts" element={<ViewPosts authenticate={auth}/>}/>
       <Route exact path="*" element={<Navigate to="/"/>}/>
       </Routes>
       <Footer/>

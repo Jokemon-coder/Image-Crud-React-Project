@@ -5,6 +5,9 @@ import ShowImg from './images/eyeLight.png';
 import HideImg from './images/eye-crossedLight.png';
 import Accounts from '../../components/Accounts.json';
 import { useNavigate } from 'react-router-dom';
+import { auth } from "../../firebase/firebaseconfig.js";
+import { signInWithEmailAndPassword } from '@firebase/auth';
+
 
 function LoginRegister(props) {
 
@@ -24,18 +27,29 @@ function LoginRegister(props) {
     if(e.target.id === "User" ? setData({...data, username: e.target.value}) : setData({...data, password: e.target.value}));
   }
 
-  //Try to find entered data by username and password from Accounts. If succesful, go to main page, otherwise don't.
+  //Try to sign in with email and password in Firebase, catch any errors and if it is succesful, navigate to the homepage
   const nav = useNavigate();
 
-  const checkUser = () => {
-    const usercheck = Accounts.find(user => (user.username === data.username && user.password === data.password));
+  const checkUser = async () => {
+    try{await signInWithEmailAndPassword(auth, data.username, data.password);}
+    catch(error)
+    {
+      console.log(error);
+    }
+    auth.onAuthStateChanged(user => {
+      if(user) {
+      console.log(auth.currentUser, "Login successful");
+      nav("/");
+      }
+    })
+    /*const usercheck = Accounts.find(user => (user.username === data.username && user.password === data.password));
     if(usercheck) {
       console.log("Login successful");
       props.click();
       nav("/home");
     }else {
       console.log("Wrong password or username");
-    }
+    }*/
   }
 
   //Handle hovering
@@ -48,16 +62,14 @@ function LoginRegister(props) {
     if(display[0] === "password")
     {
       setDisplay(["text", HideImg]);
-      //setImgSrc(HideImg); 
       
     }else
     {
       setDisplay(["password", ShowImg]);
-      //setImgSrc(ShowImg);
     };
   };
 
-  if(props.logged === false) //If statement put in place so that when an onload event happens from app, it wont show the content of the page if user is logged in and the page is redirected
+  if(props.authenticate.currentUser === null) //If statement put in place so that when an onload event happens from app, it wont show the content of the page if user is logged in and the page is redirected
   {
 
   return (

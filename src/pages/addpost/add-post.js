@@ -6,6 +6,7 @@ function AddPost(props) {
 
     const [userNullOrNot, setUser] = useState();
 
+    //useEffect setting the userNullOrNot state based on Firebase login. If the user is logged in, render the page
     useEffect(() => {
       props.authenticate.onAuthStateChanged((user) => {
         if(user)

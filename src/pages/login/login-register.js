@@ -3,7 +3,6 @@ import { useState } from 'react';
 import './login.css';
 import ShowImg from './images/eyeLight.png';
 import HideImg from './images/eye-crossedLight.png';
-import Accounts from '../../components/Accounts.json';
 import { useNavigate } from 'react-router-dom';
 import { auth } from "../../firebase/firebaseconfig.js";
 import { signInWithEmailAndPassword } from '@firebase/auth';
@@ -42,14 +41,6 @@ function LoginRegister(props) {
       nav("/");
       }
     })
-    /*const usercheck = Accounts.find(user => (user.username === data.username && user.password === data.password));
-    if(usercheck) {
-      console.log("Login successful");
-      props.click();
-      nav("/home");
-    }else {
-      console.log("Wrong password or username");
-    }*/
   }
 
   //Handle hovering

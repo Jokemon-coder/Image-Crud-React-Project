@@ -18,17 +18,6 @@ function App() {
     setLogged(bool);
   }
 
-  /*//Get and set Login_Status in localStorage with useEffects.
-  useEffect(() => { 
-    const data = window.localStorage.getItem('Login_Status');
-    if(data !== null) setLogged(JSON.parse(data));
-  }, []);
-
-  useEffect(() => {
-    window.localStorage.setItem('Login_Status', JSON.stringify(checkLogged));
-  }, [checkLogged]);*/
-
-
   //Navigation to the pages based on url and if user is logged in
   const url = window.location.href;
   const nav = useNavigate();
@@ -48,19 +37,6 @@ function App() {
       setLoggedState(false);
     }}
     )
-
-    /*if(auth.currentUser !== null && url === "http://localhost:3000/#/login")
-    {
-      console.log(auth.currentUser);
-      nav("/");
-      setLoggedState(true);
-    }
-    if(auth.currentUser === null && url !== "http://localhost:3000/#/login")
-    {
-      console.log(auth.currentUser);
-      nav("/login");
-      setLoggedState(false);
-    }*/
   }/*, [<Route/>]*/)
   //Userdetected that is set based on an interval of 1 second. It's based on if the detectUserActivity has been called, which sets the userDetected to true. Otherwise it will remain false
   //userDetected being false makes the other timers go off and if userDetected state is changed to true, they will not run until it changes again to false.
@@ -184,7 +160,7 @@ function App() {
 
   }
 
-  //Login and out function
+  //Login and out function 
   /*function LogInOut() {
     if(auth.currentUser !== null)
     {

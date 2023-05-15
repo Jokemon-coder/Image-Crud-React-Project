@@ -1,7 +1,6 @@
 #userInput {
     margin: 0 auto;
-    width: 60%;
-    margin-top: 50px;
+    width: 70%;
     text-align: center;
     padding: 10px;
 }
@@ -10,4 +9,19 @@
     width: 80%;
     height: 20px;
     margin: 5px
+}
+
+.Invisible {
+    display: none;
+}
+
+#SelectedImageDiv {
+    margin: 10px;
+}
+
+#SelectedImage {
+    margin: 0 auto;
+    width: 100%;
+    height: auto;
+    border: 1px solid #212121;
 }

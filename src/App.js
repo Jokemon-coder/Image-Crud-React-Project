@@ -81,7 +81,7 @@ function App() {
   const [countdownNumber, decreaseNumber] = useState();
 
   //Update the logout timer, it's a timeout instead of an interval because the previous design was a timeout and attempting to convert to an interval broke the entire system.
-   //countdownNumber is set with a math equation in milliseconds based on the current time and time attributed to start. This actually makes it so that interval remains at the rate it's supposed to
+  //countdownNumber is set with a math equation in milliseconds based on the current time and time attributed to start. This actually makes it so that interval remains at the rate it's supposed to
   //The way the interval is now setup allows for the interval to actually run every 100 milliseconds, even if the tab it is in is inactive
   const updateLogout = () => {
     clearInterval(logoutTimer.current);

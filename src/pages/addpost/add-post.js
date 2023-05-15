@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./add-post.css";
+import Add from '../../components/Add/Add';
 
 function AddPost(props) {
 
@@ -19,7 +20,13 @@ function AddPost(props) {
     {
     return (
         <React.Fragment>
-            
+          <div id="AddPost">
+            <section id="MainPost">
+              <div id="Post">
+              <Add/>
+              </div>
+            </section>
+          </div>
         </React.Fragment>
     );
     }

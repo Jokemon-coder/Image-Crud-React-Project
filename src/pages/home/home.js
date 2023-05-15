@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './home.css';
-import Add from '../../components/Add/Add';
 
 function Home(props) {
   //If the user login status is true, render the page. This is to fix the page rendering and showing for a second when loading and reloading to the login page
@@ -27,7 +26,6 @@ function Home(props) {
             <div id='WelcomeTextDiv'>
             <p id='text'>You have succesfully logged in! This is the main page, or at least it will be.</p>
             </div>
-            <Add/>
           </section>
       </div>
       </>

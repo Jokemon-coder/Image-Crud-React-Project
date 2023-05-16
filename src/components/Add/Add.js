@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Add.css";
+import  uploadLogo  from "./images/gallery-upload-line.png"
 import { db, storage } from "../../firebase/firebaseconfig";
 import { getDocs, collection } from "firebase/firestore";
 
@@ -66,14 +67,10 @@ useEffect(() => {
 return(
 <React.Fragment>
 <div id="userInput">
-    <div id="SelectedImageDiv" className={imageUploaded ? "" : "Invisible"}>{<img id="SelectedImage" src={userImageDisplayed}></img>}</div>
-    <input id="input" type="file" accept="image/*" onChange={change}></input>
-    <button id="send">Add</button>
-        <div>{/*h.map((post) => (
-            <div key={post.id}>
-                {post}
-            </div>
-        ))*/}</div>
+    <div id="SelectedImageDiv" className={imageUploaded ? "ImageSelected" : "ImageNotSelected"}>{<img id="SelectedImage"  className={[imageUploaded ? "" : "Invisible", "InputArea"].join(" ")} src={userImageDisplayed}></img>}
+    <input id="Input" className="InputArea" type="file" accept="image/*" title="" onChange={change}></input>
+    <img id="UploadLogo" className={[imageUploaded ? "Invisible" : "", "InputArea"].join(" ")} src={uploadLogo} href={uploadLogo}></img>
+    </div>
 </div>
 </React.Fragment>
 );

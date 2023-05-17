@@ -4,18 +4,12 @@
     height: 100%;
     margin-top: 50px;
     margin-bottom: 50px;
-    text-align: center;
 }
 
 #MainPost {
     display: block;
     margin: 0 auto;
-    width: 100%;
+    padding: 25px;
+    width: fit-content;
     height: fit-content;
-}
-
-#Post {
-    display: inherit;
-    width: 80%;
-    margin: 0 auto;
 }

@@ -22,9 +22,7 @@ function AddPost(props) {
         <React.Fragment>
           <div id="AddPost">
             <section id="MainPost">
-              <div id="Post">
               <Add/>
-              </div>
             </section>
           </div>
         </React.Fragment>

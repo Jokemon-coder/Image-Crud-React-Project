@@ -1,15 +1,14 @@
 #userInput {
     margin: 0 auto;
-    width: 70%;
+    width: auto;
     text-align: center;
     padding: 10px;
+    border: 3px solid;
 }
 
 #SelectedImageDiv {
     display: grid;
-    margin: 20px;
-    padding: 10px;
-    border: 3px solid #212121;
+    margin: 40px;
 }
 
 .ImageSelected {
@@ -17,7 +16,7 @@
 }
 
 .ImageNotSelected {
-    height: 300px;
+    height: fit-content;
 }
 
 .InputArea {
@@ -49,9 +48,19 @@
     display: none;
 }
 
-#UploadLogo {
-    width: 50%;
-    height: auto;
+#UploadStuff {
     align-self: center;
+    width: 100%;
+}
+
+#UploadLogo {
+    width: auto;
+    height: auto;
     
+}
+
+#UploadText {
+    font-size: 40px;
+    width: 100%;
+    text-align: center;
 }

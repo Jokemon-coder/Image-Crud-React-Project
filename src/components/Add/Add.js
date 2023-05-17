@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./Add.css";
 import  uploadLogo  from "./images/gallery-upload-line (1).png"
 import { db, storage } from "../../firebase/firebaseconfig";
@@ -15,6 +15,9 @@ const uploadImage = () => {
 //State for the user submitted image file
 const [userImage, setUserImage] = useState();
 
+//Ref for the input
+const inputRef = useRef(null);
+
 //State for the actual URL based on userImage that is used as the src of the image on page
 const [userImageDisplayed, setUserImageDisplayed] = useState();
 
@@ -29,6 +32,13 @@ const change = (e) => {
 //Boolean state to determine if SelectedImageDiv will be displayed
 const [imageUploaded, setImageUploaded] = useState();
 
+//Resets the entire input and image
+const RemoveImage = () => {
+    setImageUploaded(false);
+    setUserImage(undefined);
+    inputRef.current.value = null;
+}
+
 //Update dom whenever userImage is changed
 useEffect(() => {
     //Prevent drag and drop adding files that are not in image format
@@ -41,6 +51,7 @@ useEffect(() => {
     if(userImage === undefined)
     {   
         setImageUploaded(false);
+        console.log(userImage);
     }
 }, [userImage])
 
@@ -71,12 +82,16 @@ return(
 <React.Fragment>
 <div id="userInput" className="MainElementBackground">
     <div id="SelectedImageDiv" className={imageUploaded ? "ImageSelected" : "ImageNotSelected"}>{<img id="SelectedImage"  className={[imageUploaded ? "" : "Invisible", "InputArea"].join(" ")} src={userImageDisplayed}></img>}
-    <input id="Input" className="InputArea" type="file" accept="image/*" title="" onChange={change}></input>
+    <input id="Input" className="InputArea" type="file" accept="image/*" title="" ref={inputRef} onChange={change}></input>
    <section id="UploadStuff" className="InputArea">
     <img id="UploadLogo" className={[imageUploaded ? "Invisible" : "", "InputArea"].join(" ")} src={uploadLogo} href={uploadLogo}></img>
     <p id="UploadText" className={[imageUploaded ? "Invisible" : "", "InputArea", "MainElementText"].join(" ")}>Click or drag and drop file here</p>
     </section>
     </div>
+</div>
+<div id="UserButtons">
+    <button id="EraseImage" className={[imageUploaded ? "" : "Invisible", "UserButton"].join(" ")} onClick={RemoveImage}>Remove</button>
+    <button id="PostImage" className={[imageUploaded ? "" : "Invisible", "UserButton"].join(" ")}>Post</button>
 </div>
 </React.Fragment>
 );

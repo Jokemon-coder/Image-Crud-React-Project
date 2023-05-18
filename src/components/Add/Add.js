@@ -1,16 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./Add.css";
 import  uploadLogo  from "./images/gallery-upload-line (1).png"
-import { db, storage } from "../../firebase/firebaseconfig";
+import { db, storage, auth } from "../../firebase/firebaseconfig";
 import { getDocs, collection } from "firebase/firestore";
+import { ref, uploadBytes } from "firebase/storage";
 
 function Add(props) {
-
-const upload = document.getElementById("input");
-
-const uploadImage = () => {
-
-}
 
 //State for the user submitted image file
 const [userImage, setUserImage] = useState();
@@ -27,6 +22,21 @@ const images = ["image/png", "image/gif", "image/bmp", "image/jpeg"];
 const change = (e) => {
     const jpeg = e.target.files[0];
     setUserImage(jpeg);
+}
+
+//Function for uploading submitted image into Firebase storage.
+const UploadImage = () => {
+    //If it is undefined, return.
+    if(userImage === undefined) return;
+
+    //Create a reference to it and the path, which is users/uid/name + randomized number
+    const imageRef = ref(storage, "users" + "/" + auth.currentUser.uid + "/" + userImage.name + Math.floor(Math.random().toString().slice(2, 20)));
+
+    //Upload them and asynchronously console log succesful (console log for development purposes)
+    uploadBytes(imageRef, userImage).then(() => {
+        console.log("succesful");
+    })
+
 }
 
 //Boolean state to determine if SelectedImageDiv will be displayed
@@ -91,7 +101,7 @@ return(
 </div>
 <div id="UserButtons">
     <button id="EraseImage" className={[imageUploaded ? "" : "Invisible", "UserButton"].join(" ")} onClick={RemoveImage}>Remove</button>
-    <button id="PostImage" className={[imageUploaded ? "" : "Invisible", "UserButton"].join(" ")}>Post</button>
+    <button id="PostImage" className={[imageUploaded ? "" : "Invisible", "UserButton"].join(" ")} onClick={UploadImage}>Post</button>
 </div>
 </React.Fragment>
 );

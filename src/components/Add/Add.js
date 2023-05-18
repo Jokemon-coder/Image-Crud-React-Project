@@ -34,7 +34,8 @@ const UploadImage = () => {
 
     //Upload them and asynchronously console log succesful (console log for development purposes)
     uploadBytes(imageRef, userImage).then(() => {
-        console.log("succesful");
+        alert("Image posted succesfully");
+        RemoveImage();
     })
 
 }

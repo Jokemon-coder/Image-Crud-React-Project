@@ -3,9 +3,21 @@ import "./Add.css";
 import  uploadLogo  from "./images/gallery-upload-line (1).png"
 import { db, storage, auth } from "../../firebase/firebaseconfig";
 import { getDocs, collection } from "firebase/firestore";
-import { ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes, listAll } from "firebase/storage";
 
-function Add(props) {
+function Add() {
+
+const [user, setUser] = useState();
+
+//useEffect setting the user state based on Firebase login. This prevents errors from trying to use auth.currentUser directly before it has initialized on render.
+useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+    if(user)
+        {
+            setUser(user);
+        }
+    })
+})
 
 //State for the user submitted image file
 const [userImage, setUserImage] = useState();
@@ -30,7 +42,7 @@ const UploadImage = () => {
     if(userImage === undefined) return;
 
     //Create a reference to it and the path, which is users/uid/name + randomized number
-    const imageRef = ref(storage, "users" + "/" + auth.currentUser.uid + "/" + userImage.name + Math.floor(Math.random().toString().slice(2, 20)));
+    const imageRef = ref(storage, "users" + "/" + user.uid + "/" + userImage.name + Math.floor(Math.random().toString().slice(2, 20)));
 
     //Upload them and asynchronously console log succesful (console log for development purposes)
     uploadBytes(imageRef, userImage).then(() => {

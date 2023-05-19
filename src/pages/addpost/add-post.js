@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./add-post.css";
 import Add from '../../components/Add/Add';
+import { auth } from "../../firebase/firebaseconfig";
 
-function AddPost(props) {
-
-
+function AddPost() {
+  
     const [userNullOrNot, setUser] = useState();
 
     //useEffect setting the userNullOrNot state based on Firebase login. If the user is logged in, render the page
     useEffect(() => {
-      props.authenticate.onAuthStateChanged((user) => {
+      auth.onAuthStateChanged((user) => {
         if(user)
         {
           setUser(user);

@@ -1,0 +1,13 @@
+#ViewPosts {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+/*#ViewPostsGrid {
+    width: fit-content;
+    height: fit-content;
+    margin: 0 auto;
+}*/

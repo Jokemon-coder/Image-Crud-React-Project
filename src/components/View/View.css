@@ -1,0 +1,20 @@
+#UserImageGrid {
+    margin: 0 auto;
+    display: flex;
+    flex-flow: row wrap;
+    width: 80%;
+    height: fit-content;
+    justify-content: center;
+}
+
+.UserImage {
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    height: 200px;
+    width: 200px;
+    object-fit: contain;
+    padding: 10px;
+    border: 2px solid;
+    margin: 10px;
+}

@@ -29,26 +29,11 @@ function View() {
         })
     }, [])
 
-    /*const imageListRef = ref(storage, "users" + "/" + user.uid + "/");
-    const [imageList, setImageList] = useState([]);
-
-    useEffect(() => {
-        listAll(imageListRef).then((response) => {
-            response.items.forEach((item) => {
-                getDownloadURL(item).then((url) => {
-                        setImageList((prev) => [...prev, url]);
-                })
-            })
-        })
-    })*/
-
-
-
     return (
         <React.Fragment>
             <div id="UserImageGrid" className="MainElementBackground">
             {imageList.map((image, index) => {
-                return <img className={["UserImage", "MainElementChildBackground"].join(" ")} key={index} src={image} href={image}/>
+                return <img key={index} className={["UserImage", "MainElementChildBackground"].join(" ")} src={image} href={image} alt={image}/>
                 })}
             </div>
         </React.Fragment>

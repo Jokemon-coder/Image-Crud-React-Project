@@ -3,7 +3,7 @@ import "./Add.css";
 import  uploadLogo  from "./images/gallery-upload-line (1).png"
 import { db, storage, auth } from "../../firebase/firebaseconfig";
 import { getDocs, collection, addDoc, setDoc, serverTimestamp, doc} from "firebase/firestore";
-import { ref, uploadBytes, listAll } from "firebase/storage";
+import { ref, uploadBytes, listAll, getDownloadURL, uploadString } from "firebase/storage";
 
 function Add() {
 
@@ -21,9 +21,11 @@ useEffect(() => {
 
 const [newTitle, setNewTitle] = useState("");
 
-const CreatePost = async (id) => {
+//const [newUrl, setNewUrl] = useState("");
+
+const CreatePost = async (id, url) => {
     const docRef = doc(db, "userPosts", user.uid, "posts", id);
-    await setDoc(docRef, {Title: newTitle, Posted: serverTimestamp()});
+    await setDoc(docRef, {Link: url, Title: newTitle, Posted: serverTimestamp()});
 }
 
 /*
@@ -64,6 +66,8 @@ const change = (e) => {
     setUserImage(jpeg);
 }
 
+const [imageIdState, setImageIdState] = useState();
+
 //Function for uploading submitted image into Firebase storage.
 const UploadImage = () => {
     //If it is undefined, return.
@@ -74,15 +78,17 @@ const UploadImage = () => {
 
     //Create a reference to it and the path, which is users/uid/name + randomized number
     const imageId = userImage.name + Math.floor(Math.random().toString().slice(2, 20));
+    setImageIdState(imageId);
     const imageRef = ref(storage, "users" + "/" + user.uid + "/" + imageId);
-    CreatePost(imageId);
+
+    /*setNewUrl(() => */
 
     //Upload them and asynchronously console log succesful (console log for development purposes)
     uploadBytes(imageRef, userImage).then(() => {
         alert("Image posted succesfully");
         RemoveImage();
+        getDownloadURL(imageRef).then((promise) => {CreatePost(imageId, promise)});
     })
-
 }
 
 //Boolean state to determine if SelectedImageDiv will be displayed

@@ -17,6 +17,8 @@ function View() {
         auth.onAuthStateChanged((user) => {
         if(user)
             {
+                console.log(imageList);
+                console.log(new Date().getTime());
                 //Previous way of getting the image url. Now it is instead saved separately into firestore in its designated post document and it's get from there directly along with other info.
 
                 //Ref for the image list tied to the specific user in Firebase
@@ -40,14 +42,27 @@ function View() {
                         const filteredData = data.docs.map((doc) => ({
                         ...doc.data(),
                     }));*/
+                    //Prevent getDocs from firing off again every rerender resulting in image duplication
+                    if(imageList.length === 0)
+                    {
+                    
+                    const array = [];
+                    const date = new Date().getTime();
+
                     getDocs(userPostsCollection).then((response) => {
                         response.docs.forEach((item) => {
-                            const url = item.data().Link;
-                            setImageList((prev) => [...prev, url])
-                            console.log(url);
-                            console.log(imageList);
+                            const url = item.data();
+                            const posted = item.data().Posted; 
+                            
+                            array.push(url);
+                            //setImageList((prev) => [...prev, url])
                             })
+                            setImageList(array.sort((a, b) => {
+                                var timeCount = b.Posted.seconds - a.Posted.seconds;
+                                if(timeCount) return timeCount;
+                            }))
                     })}
+                    }
                     
                     getUserPosts();
 
@@ -59,8 +74,8 @@ function View() {
         <React.Fragment>
             <div id="UserImageGrid" className="MainElementBackground">
             {imageList.map((image, index) => {
-                return <img key={index} className={["UserImage", "MainElementChildBackground"].join(" ")} src={image} href={image} alt={image}/>
-                })}
+                return <img key={index} className={["UserImage", "MainElementChildBackground"].join(" ")} src={image.Link} href={image.Link} alt={image.Link} created={image.Posted}/>
+                }).sort((a,b) => a.created - b.created)}
             </div>
         </React.Fragment>
     );

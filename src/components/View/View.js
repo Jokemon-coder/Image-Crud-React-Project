@@ -17,8 +17,6 @@ function View() {
         auth.onAuthStateChanged((user) => {
         if(user)
             {
-                console.log(imageList);
-                console.log(new Date().getTime());
                 //Previous way of getting the image url. Now it is instead saved separately into firestore in its designated post document and it's get from there directly along with other info.
 
                 //Ref for the image list tied to the specific user in Firebase
@@ -35,6 +33,7 @@ function View() {
                     })
                 })*/
 
+                //Reference to where the individual user posts are using the current uid
                 const userPostsCollection = collection(db, "userPosts" + "/" + user.uid + "/" + "posts/");
 
                 const getUserPosts = async () => {
@@ -46,18 +45,17 @@ function View() {
                     if(imageList.length === 0)
                     {
                     
-                    const array = [];
-                    const date = new Date().getTime();
+                    //Create an empty array
+                    const sortedImageList = [];
 
                     getDocs(userPostsCollection).then((response) => {
                         response.docs.forEach((item) => {
+                            //Create url as item data for each item. Push that into the newly created array
                             const url = item.data();
-                            const posted = item.data().Posted; 
-                            
-                            array.push(url);
-                            //setImageList((prev) => [...prev, url])
+                            sortedImageList.push(url);
                             })
-                            setImageList(array.sort((a, b) => {
+                            //Set imageList as the array sorted descending from newest to oldest post based on the Posted value
+                            setImageList(sortedImageList.sort((a, b) => {
                                 var timeCount = b.Posted.seconds - a.Posted.seconds;
                                 if(timeCount) return timeCount;
                             }))
@@ -74,8 +72,8 @@ function View() {
         <React.Fragment>
             <div id="UserImageGrid" className="MainElementBackground">
             {imageList.map((image, index) => {
-                return <img key={index} className={["UserImage", "MainElementChildBackground"].join(" ")} src={image.Link} href={image.Link} alt={image.Link} created={image.Posted}/>
-                }).sort((a,b) => a.created - b.created)}
+                return <img key={index} className={["UserImage", "MainElementChildBackground"].join(" ")} src={image.Link} href={image.Link} alt={image.Link}></img>
+                })}
             </div>
         </React.Fragment>
     );

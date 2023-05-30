@@ -8,7 +8,9 @@ import Navbar from './components/Navbar/Navbar';
 import Popup from './components/Popup/Popup'
 import Footer from './components/Footer/Footer';
 import {Route, Routes, useNavigate, Navigate} from 'react-router-dom';
-import { auth } from './firebase/firebaseconfig';
+import { auth, db, storage } from './firebase/firebaseconfig';
+import { listAll, ref } from 'firebase/storage';
+import { collection, getDocs} from 'firebase/firestore';
 function App() {
   
   //State for the login status, was used for localStorage before Firebase. Now is used to keep track of if user is logged for other operations.
@@ -29,6 +31,42 @@ function App() {
       nav("/");
       setLoggedState(true);
     }
+
+    //const userStorage = ref(storage, "users/");
+
+    function MakeRoutes() {
+      listAll(ref(storage, "users/")).then((promise) => {
+        promise.prefixes.forEach((thing) => {
+          return thing.name;
+        })
+      })
+    }
+
+    /*const userCollection = collection(db, "userPosts/");
+
+    const array = [];
+
+    const stuff = [];
+
+    getDocs(userCollection).then((response) => {
+      response.docs.forEach((item) => {
+       array.push(item.id);
+       array.forEach((thing) => {
+        getDocs(collection(db, "userPosts/" + thing + "/posts/")).then((response2) => {
+          response2.docs.forEach((item2) => {
+            stuff.push(item2);
+            stuff.map((lol) => {
+              const item = lol.id;
+              console.log(item.Posted);
+            })
+          })
+        })
+       })
+      })
+    })*/
+
+
+
     }
     else
     if(url !== "http://localhost:3000/#/login")

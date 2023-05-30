@@ -72,11 +72,32 @@ function View() {
         <React.Fragment>
             <div id="UserImageGrid" className="MainElementBackground">
             {imageList.map((image, index) => {
-                return <img key={index} className={["UserImage", "MainElementChildBackground"].join(" ")} src={image.Link} href={image.Link} alt={image.Link}></img>
+                return (
+                    //<img key={index} className={[isHovering ? "MainElementChildBackgroundFocus" : "MainElementChildBackground", "UserImage"].join(" ")} src={image.Link} href={image.Link} alt={image.Link} onMouseOver={MouseOverAndOut}></img>
+                    <UserImage key={index} Link={image.Link}></UserImage>
+                )
                 })}
             </div>
         </React.Fragment>
     );
+}
+
+//Separate UserImage prop for the user images themselves. Helps with giving each their own functionality so that hovering doesn't affect them all at once
+function UserImage(props) {
+
+    //Bool state for hovering
+    const [isHovering, setIsHovering] = useState(false);
+
+    //Set hovering, used for both mouseover and mouseout
+    const MouseOverAndOut = () => {
+        setIsHovering(!isHovering);
+    }
+
+    return (
+        <React.Fragment>
+        <img key={props.index} className={[isHovering ? "MainElementChildBackgroundFocus" : "MainElementChildBackground", "UserImage"].join(" ")} src={props.Link} href={props.Link} alt={props.Link} onMouseOver={MouseOverAndOut} onMouseOut={MouseOverAndOut}></img>
+        </React.Fragment>
+    )
 }
 
 export default View;

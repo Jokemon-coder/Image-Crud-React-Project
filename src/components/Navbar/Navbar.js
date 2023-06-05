@@ -77,8 +77,8 @@ function Navbar(props) {
             <ListItem content="Add" click={() => {navClick("add")}}/>
             <ListItem content="Home" click={() => {navClick("/")}}/>
             </ul>
-            </div>
-            <ul id="NavListMobile" className={logo ? "NotToggled" : "Toggled"}>
+            </div> 
+            <ul id="NavListMobile" className={logo ? "NotToggled" : "Toggled"}> 
             <ListItem content="Home" click={() => {navClick("/")}}/>
             <ListItem content="Add" click={() => {navClick("add")}}/>
             <ListItem content="Posts" click={() => {navClick("posts")}}/>

@@ -25,7 +25,7 @@ const [newTitle, setNewTitle] = useState("");
 
 const CreatePost = async (id, url) => {
     const docRef = doc(db, "userPosts", user.uid, "posts", id);
-    await setDoc(docRef, {Link: url, Title: newTitle, Posted: serverTimestamp()});
+    await setDoc(docRef, {PostId: id.split("").sort(() => {return 0.5-Math.random()}).join(""), Link: url, Title: newTitle, Posted: serverTimestamp()});
 }
 
 /*
@@ -80,6 +80,7 @@ const UploadImage = () => {
     const imageId = userImage.name + Math.floor(Math.random().toString().slice(2, 20));
     setImageIdState(imageId);
     const imageRef = ref(storage, "users" + "/" + user.uid + "/" + imageId);
+    console.log(imageRef);
 
     /*setNewUrl(() => */
 

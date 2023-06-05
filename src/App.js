@@ -7,6 +7,7 @@ import ViewPosts from './pages/viewpost/view-post';
 import Navbar from './components/Navbar/Navbar';
 import Popup from './components/Popup/Popup'
 import Footer from './components/Footer/Footer';
+import Post from './pages/post/post';
 import {Route, Routes, useNavigate, Navigate} from 'react-router-dom';
 import { auth, db, storage } from './firebase/firebaseconfig';
 import { listAll, ref } from 'firebase/storage';
@@ -222,7 +223,8 @@ function App() {
       <Route exact path="/" element={<Home authenticate={auth} /*logged={checkLogged} setChanged={setLoggedState}*/ />}/>
       <Route exact path="/login" element={<LoginRegister authenticate={auth}  /*logged={checkLogged} setChanged={setLoggedState} click={LogInOut}*//>}/>
       <Route exact path="/add" element={<AddPost />}/>
-      <Route exact path="/posts" element={<ViewPosts />}/>
+      <Route exact path={"/posts"} element={<ViewPosts />}/>
+      <Route exact path="post/:postId" element={<Post/>}/>
       <Route exact path="*" element={<Navigate to="/"/>}/>
       </Routes>
       <Footer/>

@@ -1,21 +1,45 @@
-import React, {useEffect} from "react";
-import { auth } from "../../firebase/firebaseconfig";
+import React, {useEffect, useState} from "react";
+import { auth, db } from "../../firebase/firebaseconfig";
+import { getDocs, collection } from "firebase/firestore";
 
 function Post(props) {
+
+    const [user, setUser] = useState();
+
+    //const [post, setPost] = useState();
 
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
         if(user)
         {
+            setUser(user);
 
+                /*const postId = window.location.href.split("/")[5];
+
+                const postReference = collection(db, "userPosts/" + user.uid + "/posts/");
+
+                getDocs(postReference).then((response) => {
+                    const post = [];
+                    response.docs.forEach((doc) => {
+                        if(doc.data().PostId === postId)
+                        {
+                            post.push(doc.data());
+                        }
+                    })
+                    setPost(post);
+                    console.log(post);
+                })*/
         }})
-    })
+    }, [])
 
-    return(
-        <>
-
-        </>
-    );
+    if(user !== null)
+    {
+        return(
+            <>
+            
+            </>
+        );
+    }
 }
 
-export default Post();
+export default Post;

@@ -4,6 +4,7 @@ import "./View.css";
 import { storage, auth, db } from "../../firebase/firebaseconfig";
 import { listAll, ref, getDownloadURL} from "firebase/storage";
 import { doc, getDocs, collection} from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 function View() {
 
@@ -53,12 +54,16 @@ function View() {
                             //Create url as item data for each item. Push that into the newly created array
                             const url = item.data();
                             sortedImageList.push(url);
+                            console.log(sortedImageList);
                             })
                             //Set imageList as the array sorted descending from newest to oldest post based on the Posted value
+                            /*for(var i = 0; i > sortedImageList.length; i++)
+                            {*/
                             setImageList(sortedImageList.sort((a, b) => {
                                 var timeCount = b.Posted.seconds - a.Posted.seconds;
                                 if(timeCount) return timeCount;
                             }))
+                            //}
                     })}
                     }
                     
@@ -71,10 +76,11 @@ function View() {
     return (
         <React.Fragment>
             <div id="UserImageGrid" className="MainElementBackground">
-            {imageList.map((image, index) => {
+            {
+            imageList.map((image, index) => {
                 return (
                     //<img key={index} className={[isHovering ? "MainElementChildBackgroundFocus" : "MainElementChildBackground", "UserImage"].join(" ")} src={image.Link} href={image.Link} alt={image.Link} onMouseOver={MouseOverAndOut}></img>
-                    <UserImage key={index} Link={image.Link}></UserImage>
+                    <UserImage key={index} Link={image.Link} postId={image.PostId}></UserImage>
                 )
                 })}
             </div>
@@ -93,9 +99,15 @@ function UserImage(props) {
         setIsHovering(!isHovering);
     }
 
+    const nav = useNavigate();
+
+    const imageClick = (e) => {
+        nav("/post/" + e.target.getAttribute("post"));
+    }
+
     return (
         <React.Fragment>
-        <img key={props.index} className={[isHovering ? "MainElementChildBackgroundFocus" : "MainElementChildBackground", "UserImage"].join(" ")} src={props.Link} href={props.Link} alt={props.Link} onMouseOver={MouseOverAndOut} onMouseOut={MouseOverAndOut}></img>
+        <img key={props.index} post={props.postId} className={[isHovering ? "MainElementChildBackgroundFocus" : "MainElementChildBackground", "UserImage"].join(" ")} src={props.Link} href={props.Link} alt={props.Link} onMouseOver={MouseOverAndOut} onMouseOut={MouseOverAndOut} onClick={imageClick}></img>
         </React.Fragment>
     )
 }

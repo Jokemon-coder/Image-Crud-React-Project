@@ -14,11 +14,16 @@ A demo of this, which does not contain any of the CRUD aspects or connections to
 
 ## Functionality and features
 
-As of now, none of the Node and Firebase related features are in the project, but what I want to be included are:
+Many of the Firebase features are in place already and those would include:
 
 - The ability for a user to login or register using username/email and password
-- The ability to add, delete and edit image posts
-- The ability to perhaps find and look at other users and their posts(?)
+- The ability to add images with a specific title for them. These posts get their image file sent into Firebase storage while other details as well as the link to the image in storage go into a user specific Firestore document.
+- The ability to view all of your own posts as well as individual ones based on their unique ids and specific paths. 
+
+Features still missing, but which I will likely implement:
+- The ability to Delete and edit posts.
+- The ability to view posts from other users in the Home page in a large randomly generated gallery.
+- The ability to look at other user profiles in addition to the browser pathing having user ids as identifiers.
 
 Functionality that exists on the plain demo and will be expanded on in the finished project are:
 

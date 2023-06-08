@@ -10,8 +10,10 @@ function Navbar(props) {
     const nav = useNavigate();
     const navClick = (link) => {
         nav(link);
+        OpenCloseMenu();
     }
 
+    //Sign user out
     const logoutClick = () => {
         props.authenticate.signOut();
         props.setLogged(false);

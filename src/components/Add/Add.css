@@ -2,7 +2,7 @@
     margin: 0 auto;
     width: 100%;
     text-align: center;
-    border: 3px solid;
+    border: 2px solid;
 }
 
 #SelectedImageDiv {
@@ -68,14 +68,39 @@
     display: inline-block;
     width: 100%;
     height: fit-content;
-    border: 3px solid transparent;
+    
     text-align: center;
 }
 
 .UserButton {
-    width: 40%;
-    margin: 10px;
+    width: 35%;
+    margin-left: 10px;
+    margin-right: 10px;
     font-size: 20px;
+}
+
+#UserText {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.UserTextContent {
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 20px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.Resizeable {
+    resize: vertical;
+    overflow: hidden;
+    height: 25px;
+    min-height: 25px;
+    max-height: 100px;
 }
 
 @media screen and (max-width: 768px)

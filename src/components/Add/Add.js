@@ -20,12 +20,13 @@ useEffect(() => {
 })
 
 const [newTitle, setNewTitle] = useState("");
+const [newDesc, setNewDesc] = useState("");
 
 //const [newUrl, setNewUrl] = useState("");
 
 const CreatePost = async (id, url) => {
     const docRef = doc(db, "userPosts", user.uid, "posts", id);
-    await setDoc(docRef, {PostId: id.split("").sort(() => {return 0.5-Math.random()}).join(""), Link: url, Title: newTitle, Posted: serverTimestamp()});
+    await setDoc(docRef, {PostId: id.split("").sort(() => {return 0.5-Math.random()}).join(""), Link: url, Title: newTitle, Description: newDesc, Posted: serverTimestamp()});
 }
 
 /*
@@ -130,7 +131,8 @@ return(
     </div>
 </div>
 <div id="UserText">
-    <input type="text" className={imageUploaded ? "" : "Invisible"} placeholder="Write something here" onChange={(e) => {setNewTitle(e.target.value)}}></input>
+    <input type="text" className={[imageUploaded ? "" : "Invisible", "UserTextContent"].join(" ")} placeholder="Title" onChange={(e) => {setNewTitle(e.target.value)}}></input>
+    <textarea className={[imageUploaded ? "" : "Invisible", "UserTextContent", "Resizeable"].join(" ")} placeholder="Description" onChange={(e) => {setNewDesc(e.target.value)}}></textarea>
 </div>
 <div id="UserButtons">
     <button id="EraseImage" className={[imageUploaded ? "" : "Invisible", "UserButton"].join(" ")} onClick={RemoveImage}>Remove</button>

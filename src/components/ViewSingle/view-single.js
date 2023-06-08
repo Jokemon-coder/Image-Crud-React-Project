@@ -43,6 +43,7 @@ function ViewSingle() {
     {
     //Set up variables used in the display
     const title = post[0].Title;
+    const desc = post[0].Description;
     const date = post[0].Posted.toDate();
 
     //Convert the date into a day/month/year format
@@ -58,6 +59,7 @@ function ViewSingle() {
         <section id="SinglePostDetails">
         <p>{title}</p>
         <p>{fullDate}</p>
+        <p>{desc}</p>
         </section>
         </div>
     );

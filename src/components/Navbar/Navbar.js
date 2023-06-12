@@ -83,7 +83,7 @@ function Navbar(props) {
             <ul id="NavListMobile" className={logo ? "NotToggled" : "Toggled"}> 
             <ListItem content="Home" click={() => {navClick("/")}}/>
             <ListItem content="Add" click={() => {navClick("add")}}/>
-            <ListItem content="Posts" click={() => {navClick("posts")}}/>
+            <ListItem content="Posts" click={() => {navClick(props.authenticate.currentUser.uid + "/posts")}}/>
             <ListItem content="Logout" click={logoutClick}/>
             </ul>
         </React.Fragment>

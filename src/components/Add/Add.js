@@ -2,8 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import "./Add.css";
 import  uploadLogo  from "./images/gallery-upload-line (1).png"
 import { db, storage, auth } from "../../firebase/firebaseconfig";
-import { getDocs, collection, addDoc, setDoc, serverTimestamp, doc} from "firebase/firestore";
-import { ref, uploadBytes, listAll, getDownloadURL, uploadString } from "firebase/storage";
+import { collection, setDoc, serverTimestamp, doc, FieldValue} from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 function Add() {
 
@@ -28,27 +28,6 @@ const CreatePost = async (id, url) => {
     const docRef = doc(db, "userPosts", user.uid, "posts", id);
     await setDoc(docRef, {PostId: id.split("").sort(() => {return 0.5-Math.random()}).join(""), Link: url, Title: newTitle, Description: newDesc, Posted: serverTimestamp()});
 }
-
-/*
-const [userPosts, setUserPosts] = useState([]);
-const userPostsCollection = collection(db, "userPosts");
-
-useEffect(() => {
-    const getUserPosts = async () => {
-    try {
-        const data = await getDocs(userPostsCollection);
-        const filteredData = data.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-    }));
-        setUserPosts(filteredData);
-        console.log(filteredData);
-    }catch(error)
-    {
-        console.log(error);
-    }}
-    getUserPosts();
-}, [])*/
 
 //State for the user submitted image file
 const [userImage, setUserImage] = useState();
@@ -116,6 +95,9 @@ useEffect(() => {
     {   
         setImageUploaded(false);
         console.log(userImage);
+        //Clear the title and description states when no image is selected. Also now set the input values as the variables themselves, which actually clears the field. Before it remained after upload.
+        setNewTitle("");
+        setNewDesc("");
     }
 }, [userImage])
 
@@ -131,8 +113,8 @@ return(
     </div>
 </div>
 <div id="UserText">
-    <input type="text" className={[imageUploaded ? "" : "Invisible", "UserTextContent"].join(" ")} placeholder="Title" onChange={(e) => {setNewTitle(e.target.value)}}></input>
-    <textarea className={[imageUploaded ? "" : "Invisible", "UserTextContent", "Resizeable"].join(" ")} placeholder="Description" onChange={(e) => {setNewDesc(e.target.value)}}></textarea>
+    <input type="text" className={[imageUploaded ? "" : "Invisible", "UserTextContent"].join(" ")} placeholder="Title" onChange={(e) => {setNewTitle(e.target.value)}} value={newTitle}></input>
+    <textarea className={[imageUploaded ? "" : "Invisible", "UserTextContent", "Resizeable"].join(" ")} placeholder="Description" onChange={(e) => {setNewDesc(e.target.value)}} value={newDesc}></textarea>
 </div>
 <div id="UserButtons">
     <button id="EraseImage" className={[imageUploaded ? "" : "Invisible", "UserButton"].join(" ")} onClick={RemoveImage}>Remove</button>

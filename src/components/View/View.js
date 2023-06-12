@@ -3,13 +3,19 @@ import { useState, useEffect } from "react";
 import "./View.css";
 import { storage, auth, db } from "../../firebase/firebaseconfig";
 import { listAll, ref, getDownloadURL} from "firebase/storage";
-import { doc, getDocs, collection} from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import { doc, getDocs, collection, where} from "firebase/firestore";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function View() {
 
     //State for the images displayed
     const [imageList, setImageList] = useState([]);
+
+    //State for userCollection or just user uid. Needs name change.
+    const [userCollection, setUserCollection] = useState();
+
+    //Keep track of location
+    let location = useLocation();
 
     const [userPosts, setUserPosts] = useState([]);
 
@@ -18,6 +24,9 @@ function View() {
         auth.onAuthStateChanged((user) => {
         if(user)
             {
+                //Empty image list on every render, allows for instant rerender on changing url to different user posts and back to your own posts
+                setImageList([]);
+
                 //Previous way of getting the image url. Now it is instead saved separately into firestore in its designated post document and it's get from there directly along with other info.
 
                 //Ref for the image list tied to the specific user in Firebase
@@ -33,9 +42,14 @@ function View() {
                         })
                     })
                 })*/
+                
 
                 //Reference to where the individual user posts are using the current uid
-                const userPostsCollection = collection(db, "userPosts" + "/" + user.uid + "/" + "posts/");
+                const userPostsCollection = collection(db, "userPosts" + "/" + window.location.href.split("/")[4] + "/" + "posts/");
+                //const userPostsCollection2 = collection(db, "userPosts");
+                
+                //Get user.uid, which is no longer based on current user but the actual user to which the files and url path is assigned to.
+                setUserCollection(userPostsCollection.path.split("/")[1]);
 
                 const getUserPosts = async () => {
                         /*const data = await getDocs(userPostsCollection);
@@ -43,8 +57,6 @@ function View() {
                         ...doc.data(),
                     }));*/
                     //Prevent getDocs from firing off again every rerender resulting in image duplication
-                    if(imageList.length === 0)
-                    {
                     
                     //Create an empty array
                     const sortedImageList = [];
@@ -63,15 +75,17 @@ function View() {
                                 var timeCount = b.Posted.seconds - a.Posted.seconds;
                                 if(timeCount) return timeCount;
                             }))
-                            //}
                     })}
+                    //}
+                    //This if statement was previously inside getUserPosts, now is used when calling it. This allows for instant rerender on url (user images path) change
+                    if(imageList !== 0)
+                    {
+                        getUserPosts();
                     }
-                    
-                    getUserPosts();
 
             }
         })
-    }, [])
+    }, [location])
 
     return (
         <React.Fragment>
@@ -79,8 +93,7 @@ function View() {
             {
             imageList.map((image, index) => {
                 return (
-                    //<img key={index} className={[isHovering ? "MainElementChildBackgroundFocus" : "MainElementChildBackground", "UserImage"].join(" ")} src={image.Link} href={image.Link} alt={image.Link} onMouseOver={MouseOverAndOut}></img>
-                    <UserImage key={index} Link={image.Link} postId={image.PostId}></UserImage>
+                    <UserImage key={index} Link={image.Link} postId={image.PostId} userColl={userCollection}></UserImage>
                 )
                 })}
             </div>
@@ -102,7 +115,11 @@ function UserImage(props) {
     const nav = useNavigate();
 
     const imageClick = (e) => {
-        nav("/post/" + e.target.getAttribute("post"));
+        //Navigate to specific post with the addition of the user id being a part of the path
+        nav("/" + props.userColl + "/post/" + e.target.getAttribute("post"));    
+        
+        console.log("/" + props.userColl + "/post/" + e.target.getAttribute("post")); 
+        console.log(props.userColl);    
     }
 
     return (

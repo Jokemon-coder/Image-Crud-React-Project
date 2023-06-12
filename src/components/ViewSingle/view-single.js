@@ -13,7 +13,7 @@ function ViewSingle() {
         if(user)
         {
             //Get the id of the post that is used in the url
-            const postId = window.location.href.split("/")[5];
+            const postId = window.location.href.split("/")[6];
 
             //CollectionReference to retrieve the data from the Firestore collection
             const postReference = collection(db, "userPosts/" + user.uid + "/posts/");
@@ -55,7 +55,7 @@ function ViewSingle() {
 
     return (
         <div id="ViewSinglePost" className={["MainElementBackground", "MainElementText"].join(" ")}>
-        <img id="SinglePostImage" className="MainElementChildBackground" src={post[0].Link} href={post[0].Link} title={post[0].Title}></img>
+        <img  id="SinglePostImage" className="MainElementChildBackground" src={post[0].Link} href={post[0].Link} title={post[0].Title}></img>
         <section id="SinglePostDetails">
         <p>{title}</p>
         <p>{fullDate}</p>

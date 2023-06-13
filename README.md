@@ -35,4 +35,4 @@ Functionality that exists on the plain demo and will be expanded on in the finis
 
 ## Known bugs
 
-(Enter here when they're discovered)
+- When logged out, data can still be retrieved. I am guessing this is because the user id and other things used to retreive the data are set in a state and that doesn't necessarily clear when logged out. A small fix of checking if current user is null in the components should fix that. 

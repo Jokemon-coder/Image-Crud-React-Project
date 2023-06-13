@@ -222,7 +222,7 @@ function App() {
       <Routes>
       <Route exact path="/" element={<Home authenticate={auth} /*logged={checkLogged} setChanged={setLoggedState}*/ />}/>
       <Route exact path="/login" element={<LoginRegister authenticate={auth}  /*logged={checkLogged} setChanged={setLoggedState} click={LogInOut}*//>}/>
-      <Route exact path="/add" element={<AddPost />}/>
+      <Route exact path="/add" element={<AddPost authenticate={auth}/>}/>
       <Route exact path="/:userId/posts" element={<ViewPosts key={window.location.pathname}/>}/>
       <Route exact path="/:userId/post/:postId" element={<Post/>}/>
       <Route exact path="*" element={<Navigate to="/"/>}/>

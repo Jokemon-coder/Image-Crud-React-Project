@@ -5,19 +5,7 @@ import { db, storage, auth } from "../../firebase/firebaseconfig";
 import { collection, setDoc, serverTimestamp, doc, FieldValue} from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-function Add() {
-
-const [user, setUser] = useState();
-
-//useEffect setting the user state based on Firebase login. This prevents errors from trying to use auth.currentUser directly before it has initialized on render.
-useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-    if(user)
-        {
-            setUser(user);
-        }
-    })
-})
+function Add(props) {
 
 const [newTitle, setNewTitle] = useState("");
 const [newDesc, setNewDesc] = useState("");
@@ -25,7 +13,7 @@ const [newDesc, setNewDesc] = useState("");
 //const [newUrl, setNewUrl] = useState("");
 
 const CreatePost = async (id, url) => {
-    const docRef = doc(db, "userPosts", user.uid, "posts", id);
+    const docRef = doc(db, "userPosts", props.user.uid, "posts", id);
     await setDoc(docRef, {PostId: id.split("").sort(() => {return 0.5-Math.random()}).join(""), Link: url, Title: newTitle, Description: newDesc, Posted: serverTimestamp()});
 }
 
@@ -46,23 +34,18 @@ const change = (e) => {
     setUserImage(jpeg);
 }
 
-const [imageIdState, setImageIdState] = useState();
-
 //Function for uploading submitted image into Firebase storage.
 const UploadImage = () => {
     //If it is undefined, return.
     if(userImage === undefined) return;
 
     //Create a document for the user in which their post data will be saved into
-    setDoc(doc(collection(db, "userPosts"), user.uid), {});
+    setDoc(doc(collection(db, "userPosts"), props.user.uid), {});
 
     //Create a reference to it and the path, which is users/uid/name + randomized number
     const imageId = userImage.name + Math.floor(Math.random().toString().slice(2, 20));
-    setImageIdState(imageId);
-    const imageRef = ref(storage, "users" + "/" + user.uid + "/" + imageId);
+    const imageRef = ref(storage, "users" + "/" + props.user.uid + "/" + imageId);
     console.log(imageRef);
-
-    /*setNewUrl(() => */
 
     //Upload them and asynchronously console log succesful (console log for development purposes)
     uploadBytes(imageRef, userImage).then(() => {

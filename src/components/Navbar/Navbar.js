@@ -75,7 +75,7 @@ function Navbar(props) {
             <img id="OpenCloseMenu" className="NavItem" src={logo ? openLogo : closeLogo} onClick={OpenCloseMenu} alt={logo ? "Open menu" : "Close menu"}/>
             <ul id="NavListDesktop" >
             <ListItem content="Logout" click={logoutClick}/>
-            <ListItem content="Posts" click={() => {navClick("posts")}}/>
+            <ListItem content="Posts" click={() => {navClick(props.authenticate.currentUser.uid + "/posts")}}/>
             <ListItem content="Add" click={() => {navClick("add")}}/>
             <ListItem content="Home" click={() => {navClick("/")}}/>
             </ul>

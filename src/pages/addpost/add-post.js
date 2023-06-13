@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
 import "./add-post.css";
 import Add from '../../components/Add/Add';
-import { auth } from "../../firebase/firebaseconfig";
 
-function AddPost() {
+function AddPost(props) {
   
     const [user, setUser] = useState();
 
-    //useEffect setting the userNullOrNot state based on Firebase login. If the user is logged in, render the page
+    //useEffect setting the user state based on Firebase login. If the user is logged in, render the page
     useEffect(() => {
-      auth.onAuthStateChanged((user) => {
+      props.authenticate.onAuthStateChanged((user) => {
         if(user)
         {
           setUser(user);
         }
       })
     })
-    if(user !== null)
+    if(user !== undefined)
     {
     return (
         <React.Fragment>

@@ -5,7 +5,7 @@ function Home(props) {
   //If the user login status is true, render the page. This is to fix the page rendering and showing for a second when loading and reloading to the login page
 
   //State for if user is null (not logged in) or not so that user is not set to null immediately onload due to Firebase fetching the information
-  const [userNullOrNot, setUser] = useState();
+  const [user, setUser] = useState();
 
   //On every render, if user is logged in, set the user to the user so it is not null.
   useEffect(() => {
@@ -17,7 +17,7 @@ function Home(props) {
     })
   })
   //if user is not null (not logged in), display the page
-    if(userNullOrNot !== null)
+    if(user !== undefined)
     {
     return (
       <>

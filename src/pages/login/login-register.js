@@ -4,7 +4,6 @@ import './login.css';
 import ShowImg from './images/eyeLight.png';
 import HideImg from './images/eye-crossedLight.png';
 import { useNavigate } from 'react-router-dom';
-import { auth } from "../../firebase/firebaseconfig.js";
 import { signInWithEmailAndPassword } from '@firebase/auth';
 
 
@@ -27,17 +26,20 @@ function LoginRegister(props) {
   }
 
   //Try to sign in with email and password in Firebase, catch any errors and if it is succesful, navigate to the homepage
+  const [user, setUser] = useState();
+
   const nav = useNavigate();
 
   const checkUser = async () => {
-    try{await signInWithEmailAndPassword(auth, data.username, data.password);}
+    try{await signInWithEmailAndPassword(props.authenticate, data.username, data.password);}
     catch(error)
     {
       console.log(error);
     }
-    auth.onAuthStateChanged(user => {
+    props.authenticate.onAuthStateChanged(user => {
       if(user) {
-      console.log(auth.currentUser, "Login successful");
+      console.log(user, "Login successful");
+      setUser(user);
       nav("/");
       }
     })
@@ -60,7 +62,7 @@ function LoginRegister(props) {
     };
   };
 
-  if(props.authenticate.currentUser === null) //If statement put in place so that when an onload event happens from app, it wont show the content of the page if user is logged in and the page is redirected
+  if(user === undefined) //If statement put in place so that when an onload event happens from app, it wont show the content of the page if user is logged in and the page is redirected
   {
 
   return (

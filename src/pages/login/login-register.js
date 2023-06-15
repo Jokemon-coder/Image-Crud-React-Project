@@ -77,14 +77,24 @@ function Login(props) {
     })
   }
 
+  //Creates a document in the userInfo collection for the specific user on creation where their details are held
+  const makeUserInfo = async (id) => {
+    const docRef = doc(db, "userInfo", id)
+    setDoc(docRef, {username: regData.username, password: regData.password, email: regData.email})
+  }
+
   const createUser = async () => {
-    try{await createUserWithEmailAndPassword(props.authenticate, regData.email, regData.password);}
+    try{await createUserWithEmailAndPassword(props.authenticate, regData.email, regData.password)}
     catch(error)
     {
       console.log(error);
     }
     props.authenticate.onAuthStateChanged(user => {
       if(user) {
+      try{makeUserInfo(user.uid)}
+      catch(error){
+        console.log(error);
+      }
       console.log(user, "Register successful");
       setUser(user);
 

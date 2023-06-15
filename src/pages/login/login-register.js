@@ -4,25 +4,57 @@ import './login.css';
 import ShowImg from './images/eyeLight.png';
 import HideImg from './images/eye-crossedLight.png';
 import { useNavigate } from 'react-router-dom';
-import { signInWithEmailAndPassword } from '@firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from '@firebase/auth';
+import { db } from '../../firebase/firebaseconfig';
+import { doc, setDoc } from 'firebase/firestore';
 
 
-function LoginRegister(props) {
+function Login(props) {
 
   //States for password display and hovering bool
   const [display, setDisplay] = useState(["password", ShowImg]);
   const [isHovering, setHovering] = useState(false);
 
+  const [isLogginIn, setLoggingIn] = useState(true);
+
   //Initial state for the username and password
-  const [data, setData] = useState(
+  const [loginData, setLoginData] = useState(
     {
     username: "",
     password: ""
     });
 
+  //State for the registering user data
+  const [regData, setRegData] = useState(
+    {
+    username: "",
+    email: "",
+    password: ""
+    });
+
   //HandleInput function that sets the data content to whatever is being written to the input. If target id is "User", it's username and otherwise it's password being set.
   const handleInput = (e) => {
-    if(e.target.id === "User" ? setData({...data, username: e.target.value}) : setData({...data, password: e.target.value}));
+    //Switch case to handle the multiple different parts where value can be set
+    switch(e.target.id) 
+    {
+      case "loginUser":
+        setLoginData({...loginData, username: e.target.value})
+        break;
+      case "loginPass":
+        setLoginData({...loginData, password: e.target.value})
+        break;
+        case "regUser":
+        setRegData({...regData, username: e.target.value})
+        break;
+      case "regPass":
+        setRegData({...regData, password: e.target.value})
+        break;
+      case "Email":
+        setRegData({...regData, email: e.target.value})
+        break;
+    }
+    //if(e.target.id === "User" ? setLoginData({...loginData, username: e.target.value}) : setLoginData({...loginData, password: e.target.value}));
+    console.log(regData);
   }
 
   //Try to sign in with email and password in Firebase, catch any errors and if it is succesful, navigate to the homepage
@@ -31,7 +63,7 @@ function LoginRegister(props) {
   const nav = useNavigate();
 
   const checkUser = async () => {
-    try{await signInWithEmailAndPassword(props.authenticate, data.username, data.password);}
+    try{await signInWithEmailAndPassword(props.authenticate, loginData.username, loginData.password);}
     catch(error)
     {
       console.log(error);
@@ -40,6 +72,22 @@ function LoginRegister(props) {
       if(user) {
       console.log(user, "Login successful");
       setUser(user);
+      nav("/");
+      }
+    })
+  }
+
+  const createUser = async () => {
+    try{await createUserWithEmailAndPassword(props.authenticate, regData.email, regData.password);}
+    catch(error)
+    {
+      console.log(error);
+    }
+    props.authenticate.onAuthStateChanged(user => {
+      if(user) {
+      console.log(user, "Register successful");
+      setUser(user);
+
       nav("/");
       }
     })
@@ -67,19 +115,33 @@ function LoginRegister(props) {
 
   return (
     <>
-        <section id='LoginForm' className='Form'>
-        <div id='Login' className='MainElementBackground'>
+        <section id='LoginForm' className={[isLogginIn ? "Visible" : "Hide", 'Form'].join(" ")}>
+        <div id='Login' className={["LogAndReg", 'MainElementBackground'].join(" ")}>
         <h1 className='MainElementText'>Login</h1>
         <div className='PasswordAndButton'>
-        <input id="User" className="UserPass MainElementTextBackground" type="text" placeholder="Username" onChange={handleInput}></input>
-        <input id="Pass" className="UserPass MainElementTextBackground" type={display[0]} placeholder="Password" onChange={handleInput} ></input>
+        <input id="loginUser" className="UserPass MainElementTextBackground" type="text" placeholder="Username" onChange={handleInput}></input>
+        <input id="loginPass" className="UserPass MainElementTextBackground" type={display[0]} placeholder="Password" onChange={handleInput} ></input>
         <img id='PasswordNot' className='PasswordEye' src={display[1]} alt="Show password" onClick={() => showHidePassword()}></img>
         </div>
-        <button className={[isHovering ? "MainElementChildBorderFocus" : "MainElementChildBorder" ,"LoginRegButton MainElementChildBackground MainElementText"].join(" ")} id='LoginButton' onClick={checkUser} onMouseOver={mouseOverAndOut} onMouseOut={mouseOverAndOut}>Login</button>
+        <button className={[isHovering ? "MainElementChildBorderFocus" : "MainElementChildBorder" ,"LoginRegButton MainElementChildBackground MainElementText"].join(" ")} onClick={checkUser} onMouseOver={mouseOverAndOut} onMouseOut={mouseOverAndOut}>Login</button>
+        <p>Don't have an account?</p>
+        <p onClick={() => setLoggingIn(!isLogginIn)}>Sign in!</p>
         </div>
-        <div></div>
         </section>
-        <section id='RegisterForm' className='Form'>
+        
+        <section id='RegisterForm' className={[isLogginIn ? "Hide" : "Visible", 'Form'].join(" ")}>
+        <div id='Reg' className={["LogAndReg", 'MainElementBackground'].join(" ")}>
+        <h1 className='MainElementText'>Register</h1>
+        <div className='PasswordAndButton'>
+        <input id="regUser" className="UserPass MainElementTextBackground" type="text" placeholder="Username" onChange={handleInput}></input>
+        <input id="Email" className="UserPass MainElementTextBackground" type="text" placeholder="Email" onChange={handleInput}></input>
+        <input id="regPass" className="UserPass MainElementTextBackground" type={display[0]} placeholder="Password" onChange={handleInput} ></input>
+        <img id='PasswordNot' className='PasswordEye' src={display[1]} alt="Show password" onClick={() => showHidePassword()}></img>
+        </div>
+        <button className={[isHovering ? "MainElementChildBorderFocus" : "MainElementChildBorder" ,"LoginRegButton MainElementChildBackground MainElementText"].join(" ")} onClick={createUser} onMouseOver={mouseOverAndOut} onMouseOut={mouseOverAndOut}>Create account</button>
+        <p>Already have an account?</p>
+        <p onClick={() => setLoggingIn(!isLogginIn)}>Log in!</p>
+        </div>
         
         </section>
     </>
@@ -87,4 +149,4 @@ function LoginRegister(props) {
   }
 }
 
-export default LoginRegister;
+export default Login;

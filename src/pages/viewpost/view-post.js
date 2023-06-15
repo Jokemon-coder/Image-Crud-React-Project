@@ -16,7 +16,7 @@ function ViewPosts() {
         }
       })
     })
-    if(user !== null)
+    if(user !== undefined)
     {
     return (
         <>

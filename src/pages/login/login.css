@@ -4,7 +4,24 @@ body, .LoginRegister {
     background-color: #FFFFFF;
 }
 
-#LoginForm {
+.Visible {
+    display: block;
+}
+
+.Hide {
+    display: none;
+}
+
+.Form {
+    margin: 0 auto;
+    position: relative;
+    padding-top: 50px;
+    margin-bottom: 50px;
+    width: 90%;
+    height: 100%;
+}
+
+/*#LoginForm {
     margin: 0 auto;
     position: relative;
     padding-top: 50px;
@@ -12,24 +29,28 @@ body, .LoginRegister {
     width: 90%;
     height: 100%;
 
-}
+}*/
 
-#Login {
-    display: block;
+.LogAndReg {
     position: relative;
     margin: 0 auto;
     padding: 10px;
     text-align: center;
     width: fit-content;
-    height: 300px;
     border: solid 4px;
     border-color: #000000;
-    border-radius: 50px;
-
-    
+    border-radius: 50px;    
 }
 
-#Login h1 {
+#Login {
+    height: 325px;
+}
+
+#Reg {
+    height: 400px;
+}
+
+#Login h1, #Reg h1 {
     font-size: 50px;
 }
 
@@ -69,13 +90,10 @@ body, .LoginRegister {
     font-size: 20px;
     text-align: center;
     cursor: pointer;
-
-}
-
-#LoginButton {
     margin-top: 20px;
     height: 15%;
     border-radius: 20px;
+
 }
 
 .PasswordEye {

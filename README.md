@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This is my second proper ReactJS project. Already without it being finished, I've already learned more and become more accustomed to ReactJS compared to when I started and finished my first project. The purpose for this project is to have an application that a user can log or register in and add or remove images in the forms of posts, similar to social media platforms. This is to be accomplished using Firebase, which I am completely new and excited to learn more about it. Overall technologies used and to be used are:
+This is my second proper ReactJS project. Already without it being finished, I've learned more and become more accustomed to ReactJS compared to when I started and finished my first project. The purpose for this project is to have an application that a user can log or register in and add or remove images in the forms of posts, similar to social media platforms. This is to be accomplished using Firebase, which I am completely new and excited to learn more about it. Overall technologies used and to be used are:
 
 - ReactJS
 - HTML/CSS

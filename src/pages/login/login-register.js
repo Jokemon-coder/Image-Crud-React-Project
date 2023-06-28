@@ -6,7 +6,7 @@ import HideImg from './images/eye-crossedLight.png';
 import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from '@firebase/auth';
 import { db } from '../../firebase/firebaseconfig';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, collection, getDocs, where, query, getDoc} from 'firebase/firestore';
 
 
 function Login(props) {
@@ -54,7 +54,7 @@ function Login(props) {
         break;
     }
     //if(e.target.id === "User" ? setLoginData({...loginData, username: e.target.value}) : setLoginData({...loginData, password: e.target.value}));
-    console.log(regData);
+    //console.log(loginData);
   }
 
   //Try to sign in with email and password in Firebase, catch any errors and if it is succesful, navigate to the homepage
@@ -63,11 +63,50 @@ function Login(props) {
   const nav = useNavigate();
 
   const checkUser = async () => {
-    try{await signInWithEmailAndPassword(props.authenticate, loginData.username, loginData.password);}
+
+    //CollectionReference for getting userInfo
+    const docCollection = collection(db, "userInfo/");
+
+    //Query where userInfo username matches what user inputs into login
+    const q = query(docCollection, where("username", "==", loginData.username));
+
+    //userEmail defined as an asynchronous getDocs. The data is then returned as the value used with Firebase authentification login function.
+    const userEmail = await getDocs(q).then((res) => {
+      var email;
+      res.forEach((doc) => {
+        email = doc.data().email;
+      })
+      return email;
+    });
+
+    try{await signInWithEmailAndPassword(props.authenticate, userEmail, loginData.password);}
     catch(error)
     {
       console.log(error);
     }
+    //const docCollection = collection(db, "userInfo/");
+
+    /*try {
+      const q = query(docCollection, where("username", "==", "Joel123"));
+
+      getDocs(q).then((res) => {
+        res.forEach((doc) => {
+          console.log(doc.data().email);
+        })
+      });
+    }
+    catch(error)
+    {
+      console.log(error);
+    }*/
+
+
+
+    /*getDocs(docCollection).then((response) => {
+      response.docs.forEach((doc) => {
+        //console.log(doc.data());
+      })
+    })*/
     props.authenticate.onAuthStateChanged(user => {
       if(user) {
       console.log(user, "Login successful");

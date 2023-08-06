@@ -1,12 +1,16 @@
 import React, {useEffect, useState} from "react";
 import { auth, db } from "../../firebase/firebaseconfig";
 import { getDocs, collection } from "firebase/firestore";
+import arrowUp from "./images/arrow-up-s-line.png";
+import arrowDown from "./images/arrow-down-s-line.png";
 import "./view-single.css"
 
 function ViewSingle() {
 
     //State to save the post and its data into
     const [post, setPost] = useState();
+
+    const [descOpen, setDescOpen] = useState(false);
 
     useEffect(() => {
         //Get the id of the post that is used in the url
@@ -58,6 +62,9 @@ function ViewSingle() {
         <section id="SinglePostDetails">
         <p>{title}</p>
         <p>{fullDate}</p>
+        <img src={descOpen ? arrowUp : arrowDown} width="auto" height="32px" onClick={() => setDescOpen(!descOpen)}></img>
+        </section>
+        <section className={[descOpen ? "SinglePostDesc" : "Hidden", "MainElementChildBackground"].join(" ")}>
         <p>{desc}</p>
         </section>
         </div>
